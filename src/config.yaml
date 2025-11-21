@@ -1,0 +1,816 @@
+seed: 42
+trainPartition: 0.8
+maxTestSamples: 10000
+maxNan: 0.01
+minUniqueElementRatio: 0.02
+training:
+  maxSamplesPerSubdataset: 500000
+  dataset: lotsaData
+  collectionPrefix: moiraiMoETrainingRafL2
+  k : 16
+  batchSize: 3000
+  lr: 1e-3
+  weightDecay: 1e-1
+  beta1: 0.9
+  beta2: 0.98
+  eps: 1e-6
+  maxIterationsPerEpoch: 50
+  epochs: 3
+  lengthCombinations:
+    - contextLength: 32
+      predictionLength: 16
+    - contextLength: 64
+      predictionLength: 16
+    - contextLength: 128
+      predictionLength: 16
+  checkpoint: ""
+finetuning:
+  maxSamplesPerSubdataset: 500000
+  dataset: traffic
+  collectionPrefix: moiraiMoETrainingRafL2
+  batchSize: 1024
+  lr: 1e-6
+  weightDecay: 1e-2
+  beta1: 0.9
+  beta2: 0.98
+  eps: 1e-6
+  maxIterationsPerEpoch: 500
+  epochs: 2
+  lengthCombinations:
+    - contextLength: 32
+      predictionLength: 16
+    - contextLength: 64
+      predictionLength: 16
+    - contextLength: 128
+      predictionLength: 16
+  checkpoint: ""
+models:
+  linealModel:
+    type: ridge
+    alpha: 0.5
+    refitSteps: 200
+datasets:
+  ET:
+    url: "https://github.com/zhouhaoyi/ETDataset"
+    type: "gitRepository"
+    format: "csv"
+    separator: ","
+    decimal: "."
+    timeformat: "%Y-%m-%d %H:%M:%S"
+    seasonality:
+      ETTh1: 24 # hourly General Electric Turbine data tend to repeat daily
+      ETTh2: 24 # hourly General Electric Turbine data tend to repeat daily
+      ETTm1: 96 # every 15 minutes General Electric Turbine data tend to repeat daily
+      ETTm2: 96 # every 15 minutes General Electric Turbine data tend to repeat daily
+    subdatasets:
+      ETTh1: ["ETT-small", "ETTh1.csv"]
+      ETTh2: ["ETT-small", "ETTh2.csv"]
+      ETTm1: ["ETT-small", "ETTm1.csv"]
+      ETTm2: ["ETT-small", "ETTm2.csv"]
+  huaweiCloud:
+    url: "https://github.com/sir-lab/time-series-fm-dataset.git"
+    type: "gitRepository"
+    format: "csv"
+    separator: ","
+    decimal: "."
+    timeformat: "%Y-%m-%d %H:%M:%S"
+    seasonality:
+      datacenter1: 288 # every 5 minutes Datacenter data tend to repeat daily
+      datacenter2: 288 # every 5 minutes Datacenter data tend to repeat daily
+      datacenter3: 288 # every 5 minutes Datacenter data tend to repeat daily
+      datacenter4: 288 # every 5 minutes Datacenter data tend to repeat daily
+    subdatasets:
+      datacenter1: ["data", "datacentre_1.zip"]
+      datacenter2: ["data", "datacentre_2.zip"]
+      datacenter3: ["data", "datacentre_3.zip"]
+      datacenter4: ["data", "datacentre_4.zip"]
+  electricityUCI:
+    url: "https://archive.ics.uci.edu/static/public/321/electricityloaddiagrams20112014.zip"
+    type: "zip"
+    format: "csv"
+    separator: ";"
+    decimal: ","
+    timeformat: "%Y-%m-%d %H:%M:%S"
+    seasonality:
+     electricity: 96 # every 15 minutes UCI data on patients tend to repeat daily
+    subdatasets:
+      electricity: ["LD2011_2014.txt"]
+  m4-monthly:
+    url: "https://zenodo.org/records/4656480/files/m4_monthly_dataset.zip?download=1"
+    type: "zip"
+    format: "monash"
+    separator: ","
+    decimal: "."
+    periodicity:
+      month: 1
+    timeformat: "%Y-%m-%d %H-%M-%S"
+    seasonality:
+      m4-monthly: 12 # monthly Macro economic data tend to repeat yearly
+    subdatasets:
+      m4-monthly: ["m4_monthly_dataset.tsf"]
+  solarEnergy:
+    url: "https://zenodo.org/records/4656151/files/solar_weekly_dataset.zip?download=1"
+    type: "zip"
+    format: "monash"
+    separator: ","
+    decimal: "."
+    periodicity:
+      week: 1
+    timeformat: "%Y-%m-%d %H-%M-%S"
+    seasonality:
+      solarEnergy: 52 # weekly Solar energy cycles tend to repeat yearly
+    subdatasets:
+      solarEnergy: ["solar_weekly_dataset.tsf"]
+  covid19Deaths:
+    url: "https://zenodo.org/records/4656009/files/covid_deaths_dataset.zip?download=1"
+    type: "zip"
+    format: "monash"
+    separator: ","
+    decimal: "."
+    periodicity:
+      day: 1
+    timeformat: "%Y-%m-%d %H-%M-%S"
+    seasonality:
+      covid19Deaths: 7 # daily COVID-19 deaths cycles tend to repeat weekly
+    subdatasets:
+      covid19Deaths: ["covid_deaths_dataset.tsf"]
+  fredMd:
+    url: "https://zenodo.org/records/4654833/files/fred_md_dataset.zip?download=1"
+    type: "zip"
+    format: "monash"
+    separator: ","
+    decimal: "."
+    periodicity:
+      day: 1
+    timeformat: "%Y-%m-%d %H-%M-%S"
+    seasonality:
+      fredMd: 12 # monthly Macroeconomic data tend to repeat yearly
+    subdatasets:
+      fredMd: ["fred_md_dataset.tsf"]
+  nn5:
+    url: "https://zenodo.org/records/4656117/files/nn5_daily_dataset_without_missing_values.zip?download=1"
+    type: "zip"
+    format: "monash"
+    separator: ","
+    decimal: "."
+    periodicity:
+      day: 1
+    timeformat: "%Y-%m-%d %H-%M-%S"
+    seasonality:
+      nn5: 7 # daily ATM cash widthdrawals tend to repeat weekly
+    subdatasets:
+      nn5: ["nn5_daily_dataset_without_missing_values.tsf"]
+  power:
+    url: "https://www.kaggle.com/datasets/dharanikra/electrical-power-demand-in-turkey"
+    type: "kaggle"
+    datasetName: "dharanikra/electrical-power-demand-in-turkey"
+    format: "csv"
+    separator: ","
+    decimal: "."
+    timeformat: "%d.%m.%Y %H:%M"
+    seasonality:
+      power: 24 # hourly Power generation and consumption data tend to repeat daily
+    subdatasets:
+      power : ["power Generation and consumption.csv"]
+  traffic:
+    url: "https://www.kaggle.com/datasets/leonardo00/istanbul-traffic-index"
+    type: "kaggle"
+    datasetName: "leonardo00/istanbul-traffic-index"
+    format: "csv"
+    separator: ","
+    decimal: "."
+    timeformat: "%Y-%m-%d %H:%M:%S"
+    seasonality:
+      traffic: 1440 # every minute Istanbul traffic data tend to repeat daily
+    subdatasets:
+      traffic : ["istanbul_traffic.csv"]
+  cloud:
+    url: https://github.com/BizITObs/BizITObservabilityData/tree/main/Complete/Time%20Series/L2C
+  lotsaData:
+    datasetName : Salesforce/lotsa_data
+    type : "huggingface"
+    format: "huggingface"
+    timeformat: "%Y-%m-%d %H:%M:%S"
+    subdatasets:
+      buildings_900k : ["buildings_900k", "0.0.0"]
+      # buildings_bench
+      # only one sample sceaux : ["Salesforce___lotsa_data", "sceaux", "0.0.0"]
+      borealis : ["Salesforce___lotsa_data", "borealis", "0.0.0"]
+      ideal : ["Salesforce___lotsa_data", "ideal", "0.0.0"]
+      bdg-2_panther : ["Salesforce___lotsa_data", "bdg-2_panther", "0.0.0"]
+      bdg-2_fox : ["Salesforce___lotsa_data", "bdg-2_fox", "0.0.0"]
+      bdg-2_rat : ["Salesforce___lotsa_data", "bdg-2_rat", "0.0.0"]
+      bdg-2_bear : ["Salesforce___lotsa_data", "bdg-2_bear", "0.0.0"]
+      smart : ["Salesforce___lotsa_data", "smart", "0.0.0"]
+      lcl : ["Salesforce___lotsa_data", "lcl", "0.0.0"]
+      # cloudops_tsf
+      azure_vm_traces_2017 : ["Salesforce___lotsa_data", "azure_vm_traces_2017", "0.0.0"]
+      borg_cluster_data_2011 : ["Salesforce___lotsa_data", "borg_cluster_data_2011", "0.0.0"]
+      alibaba_cluster_trace_2018 : ["Salesforce___lotsa_data", "alibaba_cluster_trace_2018", "0.0.0"]
+      cmip6 : ["Salesforce___lotsa_data", "cmip6", "0.0.0"]
+      era5 : ["Salesforce___lotsa_data", "era5", "0.0.0"]
+      #gluonts :  gluonts
+      largest :  ["Salesforce___lotsa_data", "largest", "0.0.0"]
+      # lib_city
+      BEIJING_SUBWAY_30MIN : ["Salesforce___lotsa_data", "BEIJING_SUBWAY_30MIN", "0.0.0"]
+      HZMETRO : ["Salesforce___lotsa_data", "HZMETRO", "0.0.0"]
+      LOOP_SEATTLE : ["Salesforce___lotsa_data", "LOOP_SEATTLE", "0.0.0"]
+      LOS_LOOP : ["Salesforce___lotsa_data", "LOS_LOOP", "0.0.0"]
+      M_DENSE : ["Salesforce___lotsa_data", "M_DENSE", "0.0.0"]
+      PEMS03 : ["Salesforce___lotsa_data", "PEMS03", "0.0.0"]
+      PEMS04 : ["Salesforce___lotsa_data", "PEMS04", "0.0.0"]
+      PEMS07 : ["Salesforce___lotsa_data", "PEMS07", "0.0.0"]
+      PEMS08 : ["Salesforce___lotsa_data", "PEMS08", "0.0.0"]
+      PEMS_BAY : ["Salesforce___lotsa_data", "PEMS_BAY", "0.0.0"]
+      Q-TRAFFIC : ["Salesforce___lotsa_data", "Q-TRAFFIC", "0.0.0"]
+      SHMETRO : ["Salesforce___lotsa_data", "SHMETRO", "0.0.0"]
+      SZ_TAXI : ["Salesforce___lotsa_data", "SZ_TAXI", "0.0.0"]
+      # others
+      godaddy : ["Salesforce___lotsa_data", "godaddy", "0.0.0"]
+      hierarchical_sales : ["Salesforce___lotsa_data", "hierarchical_sales", "0.0.0"]
+      beijing_air_quality : ["Salesforce___lotsa_data", "beijing_air_quality", "0.0.0"]
+      subseasonal : ["Salesforce___lotsa_data", "subseasonal", "0.0.0"]
+monash:
+  timeFormat: "%Y-%m-%d %H-%M-%S"
+vectorDatabase:
+  maxNumberSamples: 10000
+  scoreThreshold : 0.0
+  k : 16
+  collections:
+    testcollection:
+      metric:
+        hnsw:space: "cosine"
+      context: 10
+      prediction: 5
+    chatTimeCosine_32_16:
+      metric:
+        hnsw:space: "cosine"
+      context: 32
+      prediction: 16
+      datasets: [
+        "ET",
+        "solarEnergy",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+      ]
+    chatTimeCosine_64_16:
+      metric:
+        hnsw:space: "cosine"
+      context: 64
+      prediction: 16
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+      ]
+    chatTimeCosine_128_16:
+      metric:
+        hnsw:space: "cosine"
+      context: 128
+      prediction: 16
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+      ]
+    moiraiMoECosine_32_16:
+      metric:
+        hnsw:space: "cosine"
+      context: 32
+      prediction: 16
+      datasets: [
+        "ET",
+        "solarEnergy",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoECosine_64_16:
+      metric:
+        hnsw:space: "cosine"
+      context: 64
+      prediction: 16
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoECosine_128_16:
+      metric:
+        hnsw:space: "cosine"
+      context: 128
+      prediction: 16
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoECosine_32_32:
+      metric:
+        hnsw:space: "cosine"
+      context: 32
+      prediction: 32
+      datasets: [
+        "ET",
+        "solarEnergy",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoECosine_64_32:
+      metric:
+        hnsw:space: "cosine"
+      context: 64
+      prediction: 32
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoECosine_128_32:
+      metric:
+        hnsw:space: "cosine"
+      context: 128
+      prediction: 32
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoECosine_520_30:
+      metric:
+        hnsw:space: "cosine"
+      context: 520
+      prediction: 30
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoECosine_520_96:
+      metric:
+        hnsw:space: "cosine"
+      context: 520
+      prediction: 96
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoECosine_520_336:
+      metric:
+        hnsw:space: "cosine"
+      context: 520
+      prediction: 336
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+      ]
+    moiraiMoETrainingCosine_32_16:
+      metric:
+        hnsw:space: "cosine"
+      context: 32
+      prediction: 16
+      datasets: [
+        "lotsaData",
+      ]
+    moiraiMoETrainingCosine_64_16:
+      metric:
+        hnsw:space: "cosine"
+      context: 64
+      prediction: 16
+      datasets: [
+        "lotsaData",
+      ]
+    moiraiMoETrainingCosine_128_16:
+      metric:
+        hnsw:space: "cosine"
+      context: 128
+      prediction: 16
+      datasets: [
+        "lotsaData",
+      ]
+    moiraiMoETrainingL2_32_16:
+      metric:
+        hnsw:space: "l2"
+      context: 32
+      prediction: 16
+      datasets: [
+        "lotsaData",
+      ]
+    moiraiMoETrainingL2_64_16:
+      metric:
+        hnsw:space: "l2"
+      context: 64
+      prediction: 16
+      datasets: [
+        "lotsaData",
+      ]
+    moiraiMoETrainingL2_128_16:
+      metric:
+        hnsw:space: "l2"
+      context: 128
+      prediction: 16
+      datasets: [
+        "lotsaData",
+      ]
+    moiraiMoETrainingRafL2_32_16:
+      metric:
+        hnsw:space: "l2"
+      context: 32
+      prediction: 16
+      datasets: [
+        "lotsaData",
+      ]
+    moiraiMoETrainingRafL2_64_16:
+      metric:
+        hnsw:space: "l2"
+      context: 64
+      prediction: 16
+      datasets: [
+        "lotsaData",
+      ]
+    moiraiMoETrainingRafL2_128_16:
+      metric:
+        hnsw:space: "l2"
+      context: 128
+      prediction: 16
+      datasets: [
+        "lotsaData",
+      ]
+    moiraiMoEL2_32_16:
+      metric:
+        hnsw:space: "l2"
+      context: 32
+      prediction: 16
+      datasets: [
+        "ET",
+        "solarEnergy",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoEL2_64_16:
+      metric:
+        hnsw:space: "l2"
+      context: 64
+      prediction: 16
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoEL2_128_16:
+      metric:
+        hnsw:space: "l2"
+      context: 128
+      prediction: 16
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoEL2_32_32:
+      metric:
+        hnsw:space: "l2"
+      context: 32
+      prediction: 32
+      datasets: [
+        "ET",
+        "solarEnergy",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoEL2_64_32:
+      metric:
+        hnsw:space: "l2"
+      context: 64
+      prediction: 32
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoEL2_128_32:
+      metric:
+        hnsw:space: "l2"
+      context: 128
+      prediction: 32
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoEL2_520_30:
+      metric:
+        hnsw:space: "l2"
+      context: 520
+      prediction: 30
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoEL2_520_96:
+      metric:
+        hnsw:space: "l2"
+      context: 520
+      prediction: 96
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoEL2_520_336:
+      metric:
+        hnsw:space: "l2"
+      context: 520
+      prediction: 336
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+      ]
+    moiraiMoERafL2_32_16:
+      metric:
+        hnsw:space: "l2"
+      context: 32
+      prediction: 16
+      datasets: [
+        "ET",
+        "solarEnergy",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoERafL2_64_16:
+      metric:
+        hnsw:space: "l2"
+      context: 64
+      prediction: 16
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoERafL2_128_16:
+      metric:
+        hnsw:space: "l2"
+      context: 128
+      prediction: 16
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoERafL2_32_32:
+      metric:
+        hnsw:space: "l2"
+      context: 32
+      prediction: 32
+      datasets: [
+        "ET",
+        "solarEnergy",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoERafL2_64_32:
+      metric:
+        hnsw:space: "l2"
+      context: 64
+      prediction: 32
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoERafL2_128_32:
+      metric:
+        hnsw:space: "l2"
+      context: 128
+      prediction: 32
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoERafNormCos_32_16:
+      metric:
+        hnsw:space: "cosine"
+      context: 32
+      prediction: 16
+      datasets: [
+        "ET",
+        "solarEnergy",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoERafNormCos_64_16:
+      metric:
+        hnsw:space: "cosine"
+      context: 64
+      prediction: 16
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoERafNormCos_128_16:
+      metric:
+        hnsw:space: "cosine"
+      context: 128
+      prediction: 16
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+paths:
+  data: ["data"]
+  datasets: ["data", "datasets"]
+  vectorDatabase: ["data", "vectorDatabase"]
+  RagCAModels: ["data", "models", "RagCA"]
+  lmdbDatabasePath: ["data", "datasets", "lmdbDatabases"]
+  pretrainedModels: ["pretrained"]
+files:
+  datasets: ["data", "datasets", "datasets.yaml"]
+  databaseTracking: ["data", "databaseTracking.yaml"]
+  evaluationReportsLineal: ["data", "reportsLineal.yaml"]
+  evaluationReportsMoiraiMoE: ["data", "reportsMoiraiMoE.yaml"]
+  evaluationReportsMoiraiMoERagMean: ["data", "reportsMoiraiMoERagMean.yaml"]
+  evaluationReportsMoiraiMoERagCA : ["data", "reportsMoiraiMoERagCA.yaml"]
+  evaluationReportsMoiraiMoERagSoftMax: ["data", "reportsMoiraiMoERagSoftMax.yaml"]
+  evaluationReportsMoiraiMoERafSoftMax: ["data", "reportsMoiraiMoERafSoftMax.yaml"]
+  evaluationReportsMoiraiMoERafCosSoftMax: ["data", "reportsMoiraiMoERafCosSoftMax.yaml"]
+  evaluationReportsMoiraiMoERagOnlySoftMax: ["data", "reportsMoiraiMoERagOnlySoftMax.yaml"]
+  evaluationReportsChatTime: ["data", "reportsChatTime.yaml"]
+  evaluationReportsChatTimeRag: ["data", "reportsChatTimeRag.yaml"]
+  evaluationFinalReportLineal: ["data" ,"reportsLineal.pdf"]
+  evaluationFinalReportMoiraiMoE: ["data" ,"reportsMoiraiMoE.pdf"]
+  evaluationFinalReportChatTime: ["data" ,"reportsChatTime.pdf"]
+  evaluationFinalReportMoiraiMoERagMean: ["data", "reportsMoiraiMoERagMean.pdf"]
+  evaluationFinalReportMoiraiMoERagCA: ["data", "reportsMoiraiMoERagCA.pdf"]
+  evaluationFinalReportMoiraiMoERagSoftMax: ["data", "reportsMoiraiMoERagSoftMax.pdf"]
+  evaluationFinalReportMoiraiMoERafSoftMax: ["data", "reportsMoiraiMoERafSoftMax.pdf"]
+  evaluationFinalReportMoiraiMoERafCosSoftMax: ["data", "reportsMoiraiMoERafCosSoftMax.pdf"]
+  evaluationFinalReportMoiraiMoERagOnlySoftMax: ["data", "reportsMoiraiMoERagOnlySoftMax.pdf"]
+  evaluationFinalReportMoiraiMoERagL2SoftMax : ["data", "reportsMoiraiMoERagL2SoftMax.pdf"]
+  evaluationFinalReportChatTimeRag: ["data", "reportsChatTimeRag.pdf"]
+  paramsRagCA: ["data", "models", "training_ragca_state.pth"]
+  paramsFineTunedModel: ["data", "models", "RagCA", "MoiraiMoE-finetune-traffic-epoch=00-step=000008.ckpt"]
+  lmdbDatabasesConfig: ["data", "datasets", "lmdbDatabases", "lmdbDatabasesConfig.yaml"]
