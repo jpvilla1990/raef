@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=70.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "your_package_name"
+version = "0.1.0"
+description = "A short description of your project"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+  { name="Juan Pablo Villa Serna", email="juan.pablo.villa@fau.de" }
+]
+
+# required dependencies
+dependencies = [
+  "numpy>=1.26.4",
+  "requests>=2.32.3",
+]
+
+# optional dependencies (install via: pip install yourpkg[dev])
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "black",
+  "mypy",
+]
+gpu = [
+  "torch",
+  "faiss-gpu"
+]
+
+# Ensure setuptools finds your package inside src/
+[tool.setuptools.packages.find]
+where = ["src"]
