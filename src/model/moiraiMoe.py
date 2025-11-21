@@ -304,7 +304,7 @@ class MoiraiMoE(FileSystem):
             self.__moiraiMoEEmbeddings.inference,
         )
 
-    def setRafCollection(self, collectionName : str, dataset : str):
+    def setInputSpaceCollection(self, collectionName : str, dataset : str):
         """
         Method to set RAF collection
         """
@@ -441,6 +441,10 @@ class MoiraiMoE(FileSystem):
         #end = time.perf_counter()
 
         #print(f"Inference time: {(end - start) * 1000:.3f} ms")
+        
+        #mean_forecast = np.mean(prediction.samples)
+        #std_forecast = np.std(prediction.samples)
+        #print("baseline", mean_forecast, std_forecast)
         return prediction.quantile(0.5)
 
     def ragInference(
@@ -549,6 +553,7 @@ class MoiraiMoE(FileSystem):
                 queriedTorch,
                 scoreTensor,
                 extended,
+                thresholdDistance=self._getConfig()["thresholdDistance"],
             )
 
             steps : int = math.ceil(self.__predictionLength / self.__patchSize)
@@ -562,6 +567,10 @@ class MoiraiMoE(FileSystem):
                     timeSeries,
                     True,
                 )
+                #samples = pred.sample(torch.Size((self.__numberSamples,)))
+                #mean_forecast = torch.mean(samples)
+                #std_forecast = torch.std(samples)
+                #print("raef", (mean_forecast * std) + mean, std_forecast * std)
 
                 pred = pred.sample(torch.Size((self.__numberSamples,))).median(dim=0).values[:,-2,:].clone()
 
@@ -654,7 +663,11 @@ class MoiraiMoE(FileSystem):
                 }],
                 freq=self.__getFrequency(sample["datetime"].iloc[0:2], timestampFormat)
             )
-            predictionNormed : np.ndarray = next(iter(self.__predictorRag.predict(sampleGluonts))).quantile(0.5)
+            predictionNormed : np.ndarray = next(iter(self.__predictorRag.predict(sampleGluonts)))
+            #mean_forecast = np.mean(predictionNormed.samples)
+            #std_forecast = np.std(predictionNormed.samples)
+            #print("raf", mean_forecast, std_forecast)
+            predictionNormed = predictionNormed.quantile(0.5)
             prediction : np.ndarray = (predictionNormed * (sampleStd + 1e-8)) + sampleMean
 
             if plot:

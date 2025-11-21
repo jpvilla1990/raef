@@ -232,7 +232,7 @@ class VectorDBIngestion(FileSystem):
         collectionName : str,
         contextLength : int,
         predictionLength : int,
-        raf : bool = False,
+        inputSpace : bool = False,
         train : bool = True,
     ):
         """
@@ -245,8 +245,8 @@ class VectorDBIngestion(FileSystem):
             contextLength = contextLength,
             numSamples = 100,
         )
-        if raf:
-            model.setRafCollection(collectionName, dataset)
+        if inputSpace:
+            model.setInputSpaceCollection(collectionName, dataset)
         else:
             model.setRagCollection(collectionName, dataset)
         iterator : DatasetIterator = self.__dataset.loadDataset(dataset)
@@ -315,7 +315,7 @@ class VectorDBIngestion(FileSystem):
         databaseTracking[f"{collectionName}_{dataset}"][dataset] = iterations
         self.__writeDatabaseTracking(databaseTracking)
 
-    def ingestDatasetsMoiraiMoE(self, collection : str, raf : bool = False, train : bool = True):
+    def ingestDatasetsMoiraiMoE(self, collection : str, inputSpace : bool = False, train : bool = True):
         """
         Method to ingest all datasets to MoiraiMoE
         """
@@ -334,8 +334,8 @@ class VectorDBIngestion(FileSystem):
                 contextLength = collections["context"],
                 numSamples = 100,
             )
-            if raf:
-                model.setRafCollection(collection, dataset)
+            if inputSpace:
+                model.setInputSpaceCollection(collection, dataset)
             else:
                 model.setRagCollection(collection, dataset)
             model.deleteDataset(dataset)
@@ -346,7 +346,7 @@ class VectorDBIngestion(FileSystem):
                 collection,
                 collections["context"],
                 collections["prediction"],
-                raf,
+                inputSpace,
                 train,
             )
 

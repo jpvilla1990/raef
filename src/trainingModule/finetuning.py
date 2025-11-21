@@ -126,24 +126,6 @@ class Training(FileSystem):
         self.__batchSize : int = self._getConfig()["finetuning"]["batchSize"]
         self.__epochs : int = self._getConfig()["finetuning"]["epochs"]
 
-    def __loadReport(self, report : str) -> dict:
-        """
-        Method to load dataset config
-        """
-        reports : dict = Utils.readYaml(
-            self._getFiles()[report]
-        )
-        return reports if type(reports) == dict else dict()
-
-    def __writeReport(self, enztry : dict, report : str):
-        """
-        Method to write in dataset config
-        """
-        Utils.writeYaml(
-            self._getFiles()[report],
-            self.__loadReport(report) | entry,
-        )
-
     def saveModelState(self, parametersFile : str):
         """
         Method to get MoiraMoE state

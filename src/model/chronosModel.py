@@ -41,7 +41,7 @@ class Chronos(FileSystem):
             loadPretrainedModel=loadPretrainedModel,
         )
 
-    def setRafCollection(self, collectionName : str, dataset : str):
+    def setInputSpaceCollection(self, collectionName : str, dataset : str):
         """
         Method to set RAF collection
         """
@@ -228,7 +228,8 @@ class Chronos(FileSystem):
                 xContext,
                 queriedTorch,
                 scoreTensor,
-                extended
+                extended,
+                thresholdDistance=self._getConfig()["thresholdDistance"],
             )
 
             id : str = str(uuid.uuid4())

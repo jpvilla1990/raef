@@ -1,4 +1,5 @@
 seed: 42
+thresholdDistance: 1.0
 trainPartition: 0.8
 maxTestSamples: 10000
 maxNan: 0.01
@@ -377,11 +378,11 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoECosine_520_30:
+    moiraiMoECosine_520_32:
       metric:
         hnsw:space: "cosine"
       context: 520
-      prediction: 30
+      prediction: 32
       datasets: [
         "ET",
         "power",
@@ -590,11 +591,99 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoEL2_520_30:
+    moiraiMoERafL2_520_32:
       metric:
         hnsw:space: "l2"
       context: 520
-      prediction: 30
+      prediction: 32
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoERafL2_256_16:
+      metric:
+        hnsw:space: "l2"
+      context: 256
+      prediction: 16
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoERafL2_384_16:
+      metric:
+        hnsw:space: "l2"
+      context: 384
+      prediction: 16
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoERafL2_512_16:
+      metric:
+        hnsw:space: "l2"
+      context: 512
+      prediction: 16
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoERafL2_520_96:
+      metric:
+        hnsw:space: "l2"
+      context: 520
+      prediction: 96
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "fredMd",
+        "nn5",
+      ]
+    moiraiMoERafL2_520_336:
+      metric:
+        hnsw:space: "l2"
+      context: 520
+      prediction: 336
+      datasets: [
+        "ET",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+      ]
+    moiraiMoEL2_520_32:
+      metric:
+        hnsw:space: "l2"
+      context: 520
+      prediction: 32
       datasets: [
         "ET",
         "power",
