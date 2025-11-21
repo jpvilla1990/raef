@@ -2,21 +2,15 @@ import uuid
 import os
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 import torch
 import torch.nn.functional as F
 import torch.nn as nn
 import math
 
-from jaxtyping import Bool, Float, Int
-
-from uni2ts.eval_util.plot import plot_single
-
 from gluonts.torch import PyTorchPredictor
 import uni2ts
 from uni2ts.model.moirai_moe import MoiraiMoEForecast, MoiraiMoEModule
 from gluonts.dataset.common import ListDataset
-from gluonts.model.forecast import SampleForecast
 
 from utils.timeManager import TimeManager
 from utils.fileSystem import FileSystem
@@ -294,7 +288,7 @@ class MoiraiMoE(FileSystem):
                 patch_size=patchSizeTensor,
             )
 
-    def setRagCollection(self, collectionName : str, dataset : str):
+    def setEmbeddingSpaceCollection(self, collectionName : str, dataset : str):
         """
         Method to set RAG collection
         """
@@ -312,16 +306,6 @@ class MoiraiMoE(FileSystem):
             collectionName,
             dataset,
             lambda x : torch.tensor(x).reshape(1, len(x)),
-        )
-
-    def setRafCosCollection(self, collectionName : str, dataset : str):
-        """
-        Method to set RAF collection
-        """
-        self.__vectorDB.setCollection(
-            collectionName,
-            dataset,
-            lambda x : (torch.tensor(x).reshape(1, len(x)) - torch.mean(torch.tensor(x).reshape(1, len(x)))) / (torch.std(torch.tensor(x).reshape(1, len(x))) + 1e-8),
         )
 
     def __getFrequency(self, timestamps : pd.core.frame.DataFrame, timestampFormat : str) -> str:
@@ -357,25 +341,6 @@ class MoiraiMoE(FileSystem):
         Method to query vector
         """
         return self.__vectorDB.queryTimeseries(sample, k)
-
-    def queryBatchVector(self, batch : torch.Tensor, k : int = 1) -> tuple:
-        """
-        Method to query vector
-        """
-        queriedBatch : torch.Tensor = None
-        scoreBatch : torch.Tensor = None
-        for element in batch:
-            queried, score = self.__vectorDB.queryTimeseries(element, k)
-            queriedTorch : torch.Tensor = torch.Tensor(queried).unsqueeze(0)
-            scoreTensor : torch.Tensor = torch.Tensor(score).unsqueeze(0)
-            if queriedBatch is None:
-                queriedBatch = queriedTorch
-                scoreBatch = scoreTensor
-            else:
-                queriedBatch = torch.cat((queriedBatch, queriedTorch), dim=0)
-                scoreBatch = torch.cat((scoreBatch, scoreTensor), dim=0)
-
-        return queriedBatch, scoreBatch
 
     def mergeQueries(self, query : tuple) -> np.ndarray:
         """
@@ -447,88 +412,10 @@ class MoiraiMoE(FileSystem):
         #print("baseline", mean_forecast, std_forecast)
         return prediction.quantile(0.5)
 
-    def ragInference(
-            self,
-            sample : pd.core.frame.DataFrame,
-            dataset : str,
-            softMax : bool = False,
-            cosine : bool = True,
-            ragPredOnly : bool = False,
-            plot : bool = False,
-        ) -> np.ndarray:
-        """
-        Method to predict one sample, first columns must be the timestamp and second is the timeseries
-        """
-        if len(sample.columns) != 2:
-            raise ModelException("MoiraiMoE predictor accepts only two columns, timestamp and timeseries itself")
-
-        timestampFormat : str = self.__datasetsConfig[dataset]["timeformat"]
-
-        sample.columns = ["datetime", "value"]
-        queriedVectors : tuple = self.queryVector(sample["value"], k=self.__k)
-        queried : np.ndarray = self.mergeQueries(queriedVectors) if not softMax else self.mergeQueriesSoftMax(queriedVectors, cosine)
-        if queried is not None:
-            sampleNp : np.ndarray = sample["value"].to_numpy()
-            queriedMean, queriedStd = np.mean(queried), np.std(queried)
-            sampleMean, sampleStd = np.mean(sampleNp), np.std(sampleNp)
-
-            queryNormed : np.ndarray = (queried - queriedMean) / (queriedStd + 1e-8)
-            sampleNormed : np.ndarray = (sampleNp - sampleMean) / (sampleStd + 1e-8)
-
-            newSample : list = queryNormed.tolist() + sampleNormed.tolist()
-            sampleGluonts : ListDataset = ListDataset(
-                [{
-                    "start": TimeManager.convertTimeFormat(sample["datetime"].iloc[0], timestampFormat, self.__timestampFormat),
-                    "target": newSample,
-                }],
-                freq=self.__getFrequency(sample["datetime"].iloc[0:2], timestampFormat)
-            )
-            predictionNormed : np.ndarray = next(iter(self.__predictorRag.predict(sampleGluonts))).quantile(0.5)
-            prediction : np.ndarray = (predictionNormed * (sampleStd + 1e-8)) + sampleMean
-
-            if plot:
-                Utils.plot(
-                    [query.tolist() for query in queriedVectors[0]],
-                    "rag.png",
-                    ":",
-                    self.__contextLength,
-                )
-                Utils.plot(
-                    [queried.tolist()],
-                    "ragAvg.png",
-                    ":",
-                    self.__contextLength,
-                )
-                Utils.plot(
-                    [newSample + predictionNormed.tolist()],
-                    "inputAndRag.png",
-                    ":",
-                    self.__contextLength,
-                    rag=True,
-                )
-                Utils.plot(
-                    [sample["value"].tolist() + prediction.tolist()],
-                    "pred.png",
-                    "-",
-                    self.__contextLength,
-                )
-
-            return prediction
-        else:
-            sampleGluonts : ListDataset = ListDataset(
-                [{
-                    "start": TimeManager.convertTimeFormat(sample["datetime"].iloc[0], timestampFormat, self.__timestampFormat),
-                    "target": sample["value"].tolist(),
-                }],
-                freq=self.__getFrequency(sample["datetime"].iloc[0:2], timestampFormat)
-            )
-            return next(iter(self.__predictor.predict(sampleGluonts))).quantile(0.5)
-
     def ragCaInference(
             self,
             sample : pd.core.frame.DataFrame,
             dataset : str,
-            cosine : bool = True,
             plot : bool = False,
             extended : bool = False,
         ) -> np.ndarray:
@@ -560,7 +447,6 @@ class MoiraiMoE(FileSystem):
 
             prediction : np.ndarray = np.empty((augmentedSample.shape[0], 0))
             timeSeries : np.ndarray = augmentedSample
-            augmentedContextLength : int = augmentedSample.shape[1]
 
             for step in range(steps):
                 pred = self.forwardRagCA(
@@ -585,15 +471,6 @@ class MoiraiMoE(FileSystem):
 
             prediction = prediction.squeeze(0)
 
-            #newSample : list = augmentedSample[0].tolist()
-            #sampleGluonts : ListDataset = ListDataset(
-            #    [{
-            #        "start": TimeManager.convertTimeFormat(sample["datetime"].iloc[0], timestampFormat, self.__timestampFormat),
-            #        "target": newSample,
-            #    }],
-            #    freq=self.__getFrequency(sample["datetime"].iloc[0:2], timestampFormat)
-            #)
-            #prediction : np.ndarray = next(iter(self.__predictorRag.predict(sampleGluonts))).mean
             id : str = str(uuid.uuid4())
             if plot:
                 Utils.plot(
@@ -630,7 +507,6 @@ class MoiraiMoE(FileSystem):
             dataset : str,
             softMax : bool = False,
             cosine : bool = True,
-            ragPredOnly : bool = False,
             plot : bool = False,
         ) -> np.ndarray:
         """
@@ -664,9 +540,6 @@ class MoiraiMoE(FileSystem):
                 freq=self.__getFrequency(sample["datetime"].iloc[0:2], timestampFormat)
             )
             predictionNormed : np.ndarray = next(iter(self.__predictorRag.predict(sampleGluonts)))
-            #mean_forecast = np.mean(predictionNormed.samples)
-            #std_forecast = np.std(predictionNormed.samples)
-            #print("raf", mean_forecast, std_forecast)
             predictionNormed = predictionNormed.quantile(0.5)
             prediction : np.ndarray = (predictionNormed * (sampleStd + 1e-8)) + sampleMean
 
@@ -706,63 +579,3 @@ class MoiraiMoE(FileSystem):
                 freq=self.__getFrequency(sample["datetime"].iloc[0:2], timestampFormat)
             )
             return next(iter(self.__predictor.predict(sampleGluonts))).quantile(0.5)
-
-    def ragOnlyInference(self, sample : pd.core.frame.DataFrame, dataset : str, softMax : bool = False, cosine : bool = True) -> SampleForecast:
-        """
-        Method to predict one sample, first columns must be the timestamp and second is the timeseries using rag only
-        """
-        if len(sample.columns) != 2:
-            raise ModelException("MoiraiMoE predictor accepts only two columns, timestamp and timeseries itself")
-
-        timestampFormat : str = self.__datasetsConfig[dataset]["timeformat"]
-        sample.columns = ["datetime", "value"]
-        queriedVectors : tuple = self.queryVector(sample["value"], k=self.__k)
-        queried : np.ndarray = self.mergeQueries(queriedVectors) if not softMax else self.mergeQueriesSoftMax(queriedVectors, cosine)
-        if queried is not None:
-            return queried[self.__contextLength:]
-        else:
-            sampleGluonts : ListDataset = ListDataset(
-                [{
-                    "start": TimeManager.convertTimeFormat(sample["datetime"].iloc[0], timestampFormat, self.__timestampFormat),
-                    "target": sample["value"].tolist(),
-                }],
-                freq=self.__getFrequency(sample["datetime"].iloc[0:2], timestampFormat)
-            )
-            return next(iter(self.__predictor.predict(sampleGluonts))).quantile(0.5)
-
-    def plotSample(self, sample : pd.core.frame.DataFrame, groundTruth : pd.core.frame.DataFrame, dataset : str):
-        """
-        Method to plot sample, first columns must be the timestamp and second is the timeseries
-        """
-        if len(sample.columns) != 2 or len(groundTruth.columns) != 2:
-            raise ModelException("MoiraiMoE predictor accepts only two columns, timestamp and timeseries itself")
-
-        timestampFormat : str = self.__datasetsConfig[dataset]["timeformat"]
-
-        sample.columns = ["datetime", "value"]
-        groundTruth.columns = ["datetime", "value"]
-
-        sampleDict : dict = {
-            "start": TimeManager.convertTimeFormat(sample["datetime"].iloc[0], timestampFormat, self.__timestampFormat),
-            "target": sample["value"].tolist(),
-        }
-        groundTruthDict : dict = {
-            "start": TimeManager.convertTimeFormat(groundTruth["datetime"].iloc[0], timestampFormat, self.__timestampFormat),
-            "target": groundTruth["value"].tolist()
-        }
-        sampleGluonts : ListDataset = ListDataset(
-            [sampleDict],
-            freq=self.__getFrequency(sample["datetime"].iloc[0:2], timestampFormat),
-        )
-
-        prediction : SampleForecast = next(iter(self.__predictor.predict(sampleGluonts)))
-
-        plot_single(
-            sampleDict,
-            groundTruthDict,
-            prediction,
-            context_length=self.__contextLength,
-            name="pred",
-            show_label=True,
-        )
-        plt.show()

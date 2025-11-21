@@ -137,95 +137,6 @@ class VectorDBIngestion(FileSystem):
 
         return X[nearest_indices]
 
-    def ingestDatasetMoiraiMoEKmeans(
-        self,
-        dataset : str,
-        collectionName : str,
-        contextLength : int,
-        predictionLength : int,
-        raf : bool = False,
-        train : bool = True,
-    ):
-        print(f"Ingesting dataset {dataset} in collection {collectionName}_{dataset}")
-        maxNumberSamples : int = self._getConfig()["vectorDatabase"]["maxNumberSamples"]
-        model : MoiraiMoE = MoiraiMoE(
-            predictionLength = predictionLength,
-            contextLength = contextLength,
-            numSamples = 100,
-        )
-        if raf:
-            model.setRafCollection(collectionName, dataset)
-        else:
-            model.setRagCollection(collectionName, dataset)
-        iterator : DatasetIterator = self.__dataset.loadDataset(dataset)
-        iterator.setSampleSize(contextLength + predictionLength)
-
-        datasetConfig : dict = Utils.readYaml(
-            self._getFiles()["datasets"]
-        )
-        subdatasets : list = list(datasetConfig[dataset].keys())
-
-        iterations : int = 0
-
-        try:
-            model.deleteDataset(dataset)
-        except Exception as e:
-            print("Exception: " + str(e))
-
-        for element in subdatasets:
-            try:
-                print(f"Subdataset {element}")
-                iterator.resetIteration(element, True, trainPartition=self._getConfig()["trainPartition"])
-                features : list = list(iterator.getAvailableFeatures(element).keys())
-                datasetArray : np.ndarray = np.zeros((contextLength + predictionLength,))
-
-                running : bool = True
-                while running:
-                    sample : pd.core.frame.DataFrame = iterator.iterateDataset(element, features, train=train)
-                    if sample is None:
-                        break
-                    if len(sample) < predictionLength + contextLength:
-                        break
-
-                    for index in range(1,len(features)):
-                        if sample[index].isna().any().any():
-                            continue
-                        if (sample[index] == 0.0).any().any():
-                            continue
-                        if (sample[index] == sample[index].mean().mean()).all().all():
-                            continue
-
-                        datasetArray = np.vstack((datasetArray, sample[index].values))
-
-                print(datasetArray.shape)
-                subdataset : np.ndarray = None
-                subdatasetMaxNumberSample : int = int(maxNumberSamples / len(subdatasets))
-                if len(datasetArray) <= subdatasetMaxNumberSample:
-                    subdataset = datasetArray
-                else:
-                    subdataset : np.ndarray = self.hierarchical_resampled_kmeans(datasetArray, clusters=subdatasetMaxNumberSample)
-                print(subdataset.shape)
-
-                for index in range(subdataset.shape[0]):
-                    model.ingestVector(
-                        subdataset[index,:contextLength],
-                        subdataset[index,contextLength:contextLength+predictionLength],
-                        dataset,
-                    )
-                    iterations += 1
-
-            except Exception as e:
-                raise e
-                print("Exception: " + str(e))
-                continue
-
-        databaseTracking : dict = self.__loadDatabaseTracking()
-        if f"{collectionName}_{dataset}" not in databaseTracking:
-            databaseTracking[f"{collectionName}_{dataset}"] = {}
-
-        databaseTracking[f"{collectionName}_{dataset}"][dataset] = iterations
-        self.__writeDatabaseTracking(databaseTracking)
-
     def ingestDatasetMoiraiMoE(
         self,
         dataset : str,
@@ -248,7 +159,7 @@ class VectorDBIngestion(FileSystem):
         if inputSpace:
             model.setInputSpaceCollection(collectionName, dataset)
         else:
-            model.setRagCollection(collectionName, dataset)
+            model.setEmbeddingSpaceCollection(collectionName, dataset)
         iterator : DatasetIterator = self.__dataset.loadDataset(dataset)
         iterator.setSampleSize(contextLength + predictionLength)
 
@@ -337,7 +248,7 @@ class VectorDBIngestion(FileSystem):
             if inputSpace:
                 model.setInputSpaceCollection(collection, dataset)
             else:
-                model.setRagCollection(collection, dataset)
+                model.setEmbeddingSpaceCollection(collection, dataset)
             model.deleteDataset(dataset)
             model.deleteCollection(collection, dataset)
 
@@ -348,101 +259,4 @@ class VectorDBIngestion(FileSystem):
                 collections["prediction"],
                 inputSpace,
                 train,
-            )
-
-    def ingestDatasetChatTime(self, dataset : str, collectionName : str, contextLength : int, predictionLength : int):
-        """
-        Method to ingest dataset in a collection using chat time
-        """
-        print(f"Ingesting dataset {dataset} in collection {collectionName}_{dataset}")
-        maxNumberSamples : int = self._getConfig()["vectorDatabase"]["maxNumberSamples"]
-        model : ChatTimeModel = ChatTimeModel(
-            predictionLength = predictionLength,
-            contextLength = contextLength,
-            collectionName = collectionName,
-        )
-        model.setRagCollection(collectionName, dataset)
-        iterator : DatasetIterator = self.__dataset.loadDataset(dataset)
-        iterator.setSampleSize(contextLength + predictionLength)
-
-        datasetConfig : dict = Utils.readYaml(
-            self._getFiles()["datasets"]
-        )
-        subdatasets : list = list(datasetConfig[dataset].keys())
-
-        iterations : int = 0
-
-        try:
-            model.deleteDataset(dataset)
-        except Exception as e:
-            print("Exception: " + str(e))
-        maxSamplesPerSubdataset : int = int(maxNumberSamples / len(subdatasets))
-        for element in subdatasets:
-            try:
-                print(f"Subdataset {element}")
-                sampleNumber : int = 0
-                iterator.resetIteration(element, True, trainPartition=self._getConfig()["trainPartition"])
-                features : list = list(iterator.getAvailableFeatures(element).keys())
-
-                running : bool = True
-                while running:
-                    sample : pd.core.frame.DataFrame = iterator.iterateDataset(element, features, train=True)
-                    if sample is None:
-                        break
-                    if len(sample) < predictionLength + contextLength:
-                        break
-
-                    for index in range(1,len(features)): 
-                        if sample[index].isna().any().any():
-                            continue
-                        if (sample[index] == 0.0).any().any():
-                            continue
-                        if (sample[index] == sample[index].mean().mean()).all().all():
-                            continue
-
-                        model.ingestVector(
-                            sample[index].iloc[:contextLength].values,
-                            sample[index].iloc[contextLength:contextLength+predictionLength].values,
-                            dataset,
-                        )
-
-                        iterations += 1
-                        sampleNumber += 1
-
-                        if sampleNumber >= maxSamplesPerSubdataset:
-                            running = False
-                            break
-
-                if iterations <= 0:
-                    continue
-
-            except Exception as e:
-                print("Exception: " + str(e))
-                continue
-
-        databaseTracking : dict = self.__loadDatabaseTracking()
-        if f"{collectionName}_{dataset}" not in databaseTracking:
-            databaseTracking[f"{collectionName}_{dataset}"] = {}
-
-        databaseTracking[f"{collectionName}_{dataset}"][dataset] = iterations
-        self.__writeDatabaseTracking(databaseTracking)
-
-    def ingestDatasetsChatTime(self, collection : str):
-        """
-        Method to ingest all datasets to MoiraiMoE
-        """
-        collections : dict = self._getConfig()["vectorDatabase"]["collections"][collection]
-
-        for dataset in collections["datasets"]:
-            databaseTracking : dict = self.__loadDatabaseTracking()
-            collectionDataset : str = f"{collection}_{dataset}"
-            if collectionDataset in databaseTracking:
-                if dataset in databaseTracking[collectionDataset]: # Skip if the dataset is already ingested in collection
-                    continue
-
-            self.ingestDatasetChatTime(
-                dataset,
-                collection,
-                collections["context"],
-                collections["prediction"],
             )

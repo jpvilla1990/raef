@@ -131,13 +131,13 @@ class Evaluation(FileSystem):
                             rafPred : np.ndarray = None
                             with concurrent.futures.ThreadPoolExecutor() as executor2:
                                 futurePred : concurrent.futures._base.Future = executor2.submit(
-                                    model.predictRag,
+                                    model.predictRaef,
                                     sample[index].iloc[:contextLength].values,
                                     predictionLength,
                                     extended=False,
                                 )
                                 futurePredExtended : concurrent.futures._base.Future = executor2.submit(
-                                    model.predictRag,
+                                    model.predictRaef,
                                     sample[index].iloc[:contextLength].values,
                                     predictionLength,
                                     extended=True,
@@ -280,8 +280,8 @@ class Evaluation(FileSystem):
             model.setInputSpaceCollection(collection, ragDataset)
             modelFineTuned.setInputSpaceCollection(collection, ragDataset)
         else:
-            model.setRagCollection(collection, ragDataset)
-            modelFineTuned.setRagCollection(collection, ragDataset)
+            model.setEmbeddingSpaceCollection(collection, ragDataset)
+            modelFineTuned.setEmbeddingSpaceCollection(collection, ragDataset)
         iterator : DatasetIterator = self.__dataset.loadDataset(dataset)
         iterator.setSampleSize(contextLength + predictionLength)
 
