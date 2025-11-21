@@ -1,9 +1,6 @@
 from typing import Callable
 import uuid
 import numpy as np
-import torch
-from pymilvus import MilvusClient, CollectionSchema, FieldSchema, DataType
-from milvus import default_server
 import chromadb
 from chromadb.config import Settings
 from chromadb import Documents, EmbeddingFunction, Embeddings
@@ -20,42 +17,6 @@ class CustomEmbeddingFunction(EmbeddingFunction):
     def __call__(self, input : Documents) -> Embeddings:
         inputArray : np.ndarray = np.array([float(element) for element in input[0].split(",")])
         return self.__embedingFunction(inputArray).numpy()[0]
-
-class MilvusVectorDB(FileSystem):
-    def __init__(self):
-        super().__init__()
-        self.__client : MilvusClient = MilvusClient(uri="http://localhost:19530")
-
-    def setCollection(self, collection: str, dataset: str, embedding_dim: int):
-        print(f"{collection}_{dataset}")
-        idField = FieldSchema(
-            name="id",
-            dtype=DataType.INT64,
-            is_primary=True,
-        )
-        predictionField = FieldSchema(
-            name="prediction",
-            dtype=DataType.VARCHAR,
-            max_length=65535,
-        )
-        datasetField = FieldSchema(
-            name="dataset",
-            dtype=DataType.VARCHAR,
-            max_length=255,
-        )
-        embeddingField = FieldSchema(
-            name="embedding",
-            dtype=DataType.FLOAT_VECTOR,
-            dim=embedding_dim,
-        )
-        schema = CollectionSchema(
-            fields=[idField, predictionField, datasetField, embeddingField],
-            description="Time Series"
-        )
-        self.__client.create_collection(
-            collection_name=f"{collection}_{dataset}",
-            schema=schema,
-        )
 
 class vectorDB(FileSystem):
     """
