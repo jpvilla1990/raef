@@ -276,24 +276,21 @@ class Evaluation(FileSystem):
             loadFineTunedModel=True,
             fineTunedModel=fineTunedModel,
         )
-        if inputSpace:
-            model.setInputSpaceCollection(collection, ragDataset)
-            modelFineTuned.setInputSpaceCollection(collection, ragDataset)
-        else:
-            model.setEmbeddingSpaceCollection(collection, ragDataset)
-            modelFineTuned.setEmbeddingSpaceCollection(collection, ragDataset)
-        iterator : DatasetIterator = self.__dataset.loadDataset(dataset)
-        iterator.setSampleSize(contextLength + predictionLength)
-
         modelRaf : MoiraiMoE = MoiraiMoE(
             predictionLength = predictionLength,
             contextLength = contextLength,
             numSamples = numberSamples,
         )
         if inputSpace:
+            model.setInputSpaceCollection(collection, ragDataset)
+            modelFineTuned.setInputSpaceCollection(collection, ragDataset)
             modelRaf.setInputSpaceCollection(collection, ragDataset)
         else:
-            modelRaf.setInputSpaceCollection(f"moiraiMoETrainingRafL2_{contextLength}_{predictionLength}", ragDataset)
+            model.setEmbeddingSpaceCollection(collection, ragDataset)
+            modelFineTuned.setEmbeddingSpaceCollection(collection, ragDataset)
+            modelRaf.setEmbeddingSpaceCollection(collection, ragDataset)
+        iterator : DatasetIterator = self.__dataset.loadDataset(dataset)
+        iterator.setSampleSize(contextLength + predictionLength)
 
         if subdataset == "":
             datasetConfig : dict = Utils.readYaml(
