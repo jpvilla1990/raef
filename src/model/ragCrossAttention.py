@@ -115,7 +115,8 @@ class RagCrossAttention(torch.nn.Module):
     def forwardExtended(
         self, xInput : torch.Tensor,
         context : torch.Tensor,
-        scores : torch.Tensor
+        scores : torch.Tensor,
+        thresholdDistance : float,
     ) -> torch.Tensor:
         """
         Forward pass for the embedding augmentation.
@@ -134,7 +135,7 @@ class RagCrossAttention(torch.nn.Module):
         context = (context - xMean) / xStd
         scores = scores / (xStd.squeeze() ** 2)
 
-        xAugmented = self.extendedAugmentation(xNormed, context, scores)
+        xAugmented = self.extendedAugmentation(xNormed, context, scores, thresholdDistance)
         return xAugmented.squeeze(1), xMean, xStd
 
     def inferenceModified(
@@ -162,7 +163,8 @@ class RagCrossAttention(torch.nn.Module):
         self,
         xInput : torch.Tensor,
         context : torch.Tensor,
-        scores : torch.Tensor
+        scores : torch.Tensor,
+        thresholdDistance : float,
     ) -> torch.Tensor:
         """
         Inference pass for the embedding augmentation.
@@ -175,7 +177,7 @@ class RagCrossAttention(torch.nn.Module):
         output : torch.Tensor = None
         self.eval()
         with torch.no_grad():
-            output = self.forwardExtended(xInput, context, scores)
+            output = self.forwardExtended(xInput, context, scores, thresholdDistance)
 
         return output
 
@@ -185,9 +187,10 @@ class RagCrossAttention(torch.nn.Module):
         context : torch.Tensor,
         scores : torch.Tensor,
         extended : bool,
+        thresholdDistance : float,
     ):
         if extended:
-            return self.inferenceExtended(xInput, context, scores)
+            return self.inferenceExtended(xInput, context, scores, thresholdDistance)
         else:
             return self.inferenceModified(xInput, context, scores)
 

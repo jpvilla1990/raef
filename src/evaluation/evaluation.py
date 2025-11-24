@@ -356,14 +356,12 @@ class Evaluation(FileSystem):
                                     model.ragCaInference,
                                     sample[[0, index]].iloc[:contextLength],
                                     dataset,
-                                    cosine=False,
                                     extended=False,
                                 )
                                 futurePredExtended : concurrent.futures._base.Future = executor2.submit(
                                     model.ragCaInference,
                                     sample[[0, index]].iloc[:contextLength],
                                     dataset,
-                                    cosine=False,
                                     extended=True,
                                 )
                                 futurePredRefBase : concurrent.futures._base.Future = executor2.submit(
