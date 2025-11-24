@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+uv run pip install --no-deps "uni2ts>=2.0.0"
+uv run python "$@"

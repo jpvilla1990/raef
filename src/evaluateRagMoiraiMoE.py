@@ -4,7 +4,7 @@ from evaluation.evaluation import Evaluation
 vectorDBingestion : VectorDBIngestion = VectorDBIngestion()
 evaluation : Evaluation = Evaluation()
 
-contextLength : int = 512
+contextLength : int = 32
 predictionLength : int = 16
 
 vectorDBingestion.ingestDatasetsMoiraiMoE(f"moiraiMoERafL2_{contextLength}_{predictionLength}", True)

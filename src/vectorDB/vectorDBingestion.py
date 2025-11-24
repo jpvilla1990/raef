@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from sklearn.cluster import KMeans
 from utils.utils import Utils
 from utils.fileSystem import FileSystem
 from datasetsModule.datasets import Datasets
