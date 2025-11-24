@@ -7,7 +7,7 @@ evaluation : Evaluation = Evaluation()
 contextLength : int = 32
 predictionLength : int = 16
 
-vectorDBingestion.ingestDatasetsMoiraiMoE(f"moiraiMoERafL2_{contextLength}_{predictionLength}", True)
+#vectorDBingestion.ingestDatasetsMoiraiMoE(f"moiraiMoERafL2_{contextLength}_{predictionLength}", True)
 
 loadPretrainedModel : bool = False
 
