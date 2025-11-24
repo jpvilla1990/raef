@@ -7,7 +7,6 @@ minUniqueElementRatio: 0.02
 training:
   maxSamplesPerSubdataset: 500000
   dataset: lotsaData
-  collectionPrefix: moiraiMoETrainingRafL2
   k : 16
   batchSize: 3000
   lr: 1e-3
@@ -28,7 +27,6 @@ training:
 finetuning:
   maxSamplesPerSubdataset: 500000
   dataset: traffic
-  collectionPrefix: moiraiMoETrainingRafL2
   batchSize: 1024
   lr: 1e-6
   weightDecay: 1e-2
@@ -280,7 +278,7 @@ vectorDatabase:
         "traffic",
         "huaweiCloud",
       ]
-    moiraiMoECosine_32_16:
+    domainDatasetCosine_32_16:
       metric:
         hnsw:space: "cosine"
       context: 32
@@ -297,7 +295,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoECosine_64_16:
+    domainDatasetCosine_64_16:
       metric:
         hnsw:space: "cosine"
       context: 64
@@ -313,7 +311,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoECosine_128_16:
+    domainDatasetCosine_128_16:
       metric:
         hnsw:space: "cosine"
       context: 128
@@ -329,7 +327,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoECosine_32_32:
+    domainDatasetCosine_32_32:
       metric:
         hnsw:space: "cosine"
       context: 32
@@ -346,7 +344,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoECosine_64_32:
+    domainDatasetCosine_64_32:
       metric:
         hnsw:space: "cosine"
       context: 64
@@ -362,7 +360,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoECosine_128_32:
+    domainDatasetCosine_128_32:
       metric:
         hnsw:space: "cosine"
       context: 128
@@ -378,7 +376,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoECosine_520_32:
+    domainDatasetCosine_520_32:
       metric:
         hnsw:space: "cosine"
       context: 520
@@ -393,7 +391,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoECosine_520_96:
+    domainDatasetCosine_520_96:
       metric:
         hnsw:space: "cosine"
       context: 520
@@ -408,7 +406,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoECosine_520_336:
+    domainDatasetCosine_520_336:
       metric:
         hnsw:space: "cosine"
       context: 520
@@ -421,177 +419,7 @@ vectorDatabase:
         "huaweiCloud",
         "electricityUCI",
       ]
-    moiraiMoETrainingCosine_32_16:
-      metric:
-        hnsw:space: "cosine"
-      context: 32
-      prediction: 16
-      datasets: [
-        "lotsaData",
-      ]
-    moiraiMoETrainingCosine_64_16:
-      metric:
-        hnsw:space: "cosine"
-      context: 64
-      prediction: 16
-      datasets: [
-        "lotsaData",
-      ]
-    moiraiMoETrainingCosine_128_16:
-      metric:
-        hnsw:space: "cosine"
-      context: 128
-      prediction: 16
-      datasets: [
-        "lotsaData",
-      ]
-    moiraiMoETrainingL2_32_16:
-      metric:
-        hnsw:space: "l2"
-      context: 32
-      prediction: 16
-      datasets: [
-        "lotsaData",
-      ]
-    moiraiMoETrainingL2_64_16:
-      metric:
-        hnsw:space: "l2"
-      context: 64
-      prediction: 16
-      datasets: [
-        "lotsaData",
-      ]
-    moiraiMoETrainingL2_128_16:
-      metric:
-        hnsw:space: "l2"
-      context: 128
-      prediction: 16
-      datasets: [
-        "lotsaData",
-      ]
-    moiraiMoETrainingRafL2_32_16:
-      metric:
-        hnsw:space: "l2"
-      context: 32
-      prediction: 16
-      datasets: [
-        "lotsaData",
-      ]
-    moiraiMoETrainingRafL2_64_16:
-      metric:
-        hnsw:space: "l2"
-      context: 64
-      prediction: 16
-      datasets: [
-        "lotsaData",
-      ]
-    moiraiMoETrainingRafL2_128_16:
-      metric:
-        hnsw:space: "l2"
-      context: 128
-      prediction: 16
-      datasets: [
-        "lotsaData",
-      ]
-    moiraiMoEL2_32_16:
-      metric:
-        hnsw:space: "l2"
-      context: 32
-      prediction: 16
-      datasets: [
-        "ET",
-        "solarEnergy",
-        "power",
-        "m4-monthly",
-        "traffic",
-        "huaweiCloud",
-        "electricityUCI",
-        "covid19Deaths",
-        "fredMd",
-        "nn5",
-      ]
-    moiraiMoEL2_64_16:
-      metric:
-        hnsw:space: "l2"
-      context: 64
-      prediction: 16
-      datasets: [
-        "ET",
-        "power",
-        "m4-monthly",
-        "traffic",
-        "huaweiCloud",
-        "electricityUCI",
-        "covid19Deaths",
-        "fredMd",
-        "nn5",
-      ]
-    moiraiMoEL2_128_16:
-      metric:
-        hnsw:space: "l2"
-      context: 128
-      prediction: 16
-      datasets: [
-        "ET",
-        "power",
-        "m4-monthly",
-        "traffic",
-        "huaweiCloud",
-        "electricityUCI",
-        "covid19Deaths",
-        "fredMd",
-        "nn5",
-      ]
-    moiraiMoEL2_32_32:
-      metric:
-        hnsw:space: "l2"
-      context: 32
-      prediction: 32
-      datasets: [
-        "ET",
-        "solarEnergy",
-        "power",
-        "m4-monthly",
-        "traffic",
-        "huaweiCloud",
-        "electricityUCI",
-        "covid19Deaths",
-        "fredMd",
-        "nn5",
-      ]
-    moiraiMoEL2_64_32:
-      metric:
-        hnsw:space: "l2"
-      context: 64
-      prediction: 32
-      datasets: [
-        "ET",
-        "power",
-        "m4-monthly",
-        "traffic",
-        "huaweiCloud",
-        "electricityUCI",
-        "covid19Deaths",
-        "fredMd",
-        "nn5",
-      ]
-    moiraiMoEL2_128_32:
-      metric:
-        hnsw:space: "l2"
-      context: 128
-      prediction: 32
-      datasets: [
-        "ET",
-        "power",
-        "m4-monthly",
-        "traffic",
-        "huaweiCloud",
-        "electricityUCI",
-        "covid19Deaths",
-        "fredMd",
-        "nn5",
-      ]
-    moiraiMoERafL2_520_32:
+    domainDatasetL2_520_32:
       metric:
         hnsw:space: "l2"
       context: 520
@@ -606,7 +434,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoERafL2_256_16:
+    domainDatasetL2_256_16:
       metric:
         hnsw:space: "l2"
       context: 256
@@ -621,7 +449,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoERafL2_384_16:
+    domainDatasetL2_384_16:
       metric:
         hnsw:space: "l2"
       context: 384
@@ -636,7 +464,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoERafL2_512_16:
+    domainDatasetL2_512_16:
       metric:
         hnsw:space: "l2"
       context: 512
@@ -651,7 +479,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoERafL2_520_96:
+    domainDatasetL2_520_96:
       metric:
         hnsw:space: "l2"
       context: 520
@@ -666,7 +494,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoERafL2_520_336:
+    domainDatasetL2_520_336:
       metric:
         hnsw:space: "l2"
       context: 520
@@ -679,50 +507,7 @@ vectorDatabase:
         "huaweiCloud",
         "electricityUCI",
       ]
-    moiraiMoEL2_520_32:
-      metric:
-        hnsw:space: "l2"
-      context: 520
-      prediction: 32
-      datasets: [
-        "ET",
-        "power",
-        "m4-monthly",
-        "traffic",
-        "huaweiCloud",
-        "electricityUCI",
-        "fredMd",
-        "nn5",
-      ]
-    moiraiMoEL2_520_96:
-      metric:
-        hnsw:space: "l2"
-      context: 520
-      prediction: 96
-      datasets: [
-        "ET",
-        "power",
-        "m4-monthly",
-        "traffic",
-        "huaweiCloud",
-        "electricityUCI",
-        "fredMd",
-        "nn5",
-      ]
-    moiraiMoEL2_520_336:
-      metric:
-        hnsw:space: "l2"
-      context: 520
-      prediction: 336
-      datasets: [
-        "ET",
-        "power",
-        "m4-monthly",
-        "traffic",
-        "huaweiCloud",
-        "electricityUCI",
-      ]
-    moiraiMoERafL2_32_16:
+    domainDatasetL2_32_16:
       metric:
         hnsw:space: "l2"
       context: 32
@@ -739,7 +524,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoERafL2_64_16:
+    domainDatasetL2_64_16:
       metric:
         hnsw:space: "l2"
       context: 64
@@ -755,7 +540,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoERafL2_128_16:
+    domainDatasetL2_128_16:
       metric:
         hnsw:space: "l2"
       context: 128
@@ -771,7 +556,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoERafL2_32_32:
+    domainDatasetL2_32_32:
       metric:
         hnsw:space: "l2"
       context: 32
@@ -788,7 +573,7 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoERafL2_64_32:
+    domainDatasetL2_64_32:
       metric:
         hnsw:space: "l2"
       context: 64
@@ -804,60 +589,11 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-    moiraiMoERafL2_128_32:
+    domainDatasetL2_128_32:
       metric:
         hnsw:space: "l2"
       context: 128
       prediction: 32
-      datasets: [
-        "ET",
-        "power",
-        "m4-monthly",
-        "traffic",
-        "huaweiCloud",
-        "electricityUCI",
-        "covid19Deaths",
-        "fredMd",
-        "nn5",
-      ]
-    moiraiMoERafNormCos_32_16:
-      metric:
-        hnsw:space: "cosine"
-      context: 32
-      prediction: 16
-      datasets: [
-        "ET",
-        "solarEnergy",
-        "power",
-        "m4-monthly",
-        "traffic",
-        "huaweiCloud",
-        "electricityUCI",
-        "covid19Deaths",
-        "fredMd",
-        "nn5",
-      ]
-    moiraiMoERafNormCos_64_16:
-      metric:
-        hnsw:space: "cosine"
-      context: 64
-      prediction: 16
-      datasets: [
-        "ET",
-        "power",
-        "m4-monthly",
-        "traffic",
-        "huaweiCloud",
-        "electricityUCI",
-        "covid19Deaths",
-        "fredMd",
-        "nn5",
-      ]
-    moiraiMoERafNormCos_128_16:
-      metric:
-        hnsw:space: "cosine"
-      context: 128
-      prediction: 16
       datasets: [
         "ET",
         "power",
@@ -879,27 +615,6 @@ paths:
 files:
   datasets: ["data", "datasets", "datasets.yaml"]
   databaseTracking: ["data", "databaseTracking.yaml"]
-  evaluationReportsLineal: ["data", "reportsLineal.yaml"]
-  evaluationReportsMoiraiMoE: ["data", "reportsMoiraiMoE.yaml"]
-  evaluationReportsMoiraiMoERagMean: ["data", "reportsMoiraiMoERagMean.yaml"]
-  evaluationReportsMoiraiMoERagCA : ["data", "reportsMoiraiMoERagCA.yaml"]
-  evaluationReportsMoiraiMoERagSoftMax: ["data", "reportsMoiraiMoERagSoftMax.yaml"]
-  evaluationReportsMoiraiMoERafSoftMax: ["data", "reportsMoiraiMoERafSoftMax.yaml"]
-  evaluationReportsMoiraiMoERafCosSoftMax: ["data", "reportsMoiraiMoERafCosSoftMax.yaml"]
-  evaluationReportsMoiraiMoERagOnlySoftMax: ["data", "reportsMoiraiMoERagOnlySoftMax.yaml"]
-  evaluationReportsChatTime: ["data", "reportsChatTime.yaml"]
-  evaluationReportsChatTimeRag: ["data", "reportsChatTimeRag.yaml"]
-  evaluationFinalReportLineal: ["data" ,"reportsLineal.pdf"]
-  evaluationFinalReportMoiraiMoE: ["data" ,"reportsMoiraiMoE.pdf"]
-  evaluationFinalReportChatTime: ["data" ,"reportsChatTime.pdf"]
-  evaluationFinalReportMoiraiMoERagMean: ["data", "reportsMoiraiMoERagMean.pdf"]
-  evaluationFinalReportMoiraiMoERagCA: ["data", "reportsMoiraiMoERagCA.pdf"]
-  evaluationFinalReportMoiraiMoERagSoftMax: ["data", "reportsMoiraiMoERagSoftMax.pdf"]
-  evaluationFinalReportMoiraiMoERafSoftMax: ["data", "reportsMoiraiMoERafSoftMax.pdf"]
-  evaluationFinalReportMoiraiMoERafCosSoftMax: ["data", "reportsMoiraiMoERafCosSoftMax.pdf"]
-  evaluationFinalReportMoiraiMoERagOnlySoftMax: ["data", "reportsMoiraiMoERagOnlySoftMax.pdf"]
-  evaluationFinalReportMoiraiMoERagL2SoftMax : ["data", "reportsMoiraiMoERagL2SoftMax.pdf"]
-  evaluationFinalReportChatTimeRag: ["data", "reportsChatTimeRag.pdf"]
   paramsRagCA: ["data", "models", "training_ragca_state.pth"]
   paramsFineTunedModel: ["data", "models", "RagCA", "MoiraiMoE-finetune-traffic-epoch=00-step=000008.ckpt"]
   lmdbDatabasesConfig: ["data", "datasets", "lmdbDatabases", "lmdbDatabasesConfig.yaml"]

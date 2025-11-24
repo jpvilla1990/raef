@@ -7,7 +7,7 @@ evaluation : Evaluation = Evaluation()
 contextLength : int = 32
 predictionLength : int = 16
 
-vectorDBingestion.ingestDatasetsMoiraiMoE(f"domainDatasetL2_{contextLength}_{predictionLength}", True)
+vectorDBingestion.ingestDatasetsMoiraiMoE(f"domainDatasetCosine_{contextLength}_{predictionLength}", False)
 
 loadPretrainedModel : bool = False
 
@@ -19,6 +19,7 @@ report : dict = evaluation.evaluateMoiraiMoERagCA(
     collection=f"domainDatasetL2_{contextLength}_{predictionLength}",
     loadPretrainedRagCA=loadPretrainedModel,
     fineTunedModel="MoiraiMoE-finetune-ET-epoch=00-step=000200.ckpt",
+    inputSpace=False,
 )
 
 report : dict = evaluation.evaluateMoiraiMoERagCA(
@@ -29,6 +30,7 @@ report : dict = evaluation.evaluateMoiraiMoERagCA(
     collection=f"domainDatasetL2_{contextLength}_{predictionLength}",
     loadPretrainedRagCA=loadPretrainedModel,
     fineTunedModel="MoiraiMoE-finetune-huaweiCloud-epoch=00-step=001000.ckpt",
+    inputSpace=False,
 )
 
 report : dict = evaluation.evaluateMoiraiMoERagCA(
@@ -39,6 +41,7 @@ report : dict = evaluation.evaluateMoiraiMoERagCA(
     collection=f"domainDatasetL2_{contextLength}_{predictionLength}",
     loadPretrainedRagCA=loadPretrainedModel,
     fineTunedModel="MoiraiMoE-finetune-power-epoch=00-step=000010.ckpt",
+    inputSpace=False,
 )
 
 report : dict = evaluation.evaluateMoiraiMoERagCA(
@@ -49,6 +52,7 @@ report : dict = evaluation.evaluateMoiraiMoERagCA(
     collection=f"domainDatasetL2_{contextLength}_{predictionLength}",
     loadPretrainedRagCA=loadPretrainedModel,
     fineTunedModel="MoiraiMoE-finetune-traffic-epoch=00-step=000008.ckpt",
+    inputSpace=False,
 )
 
 report : dict = evaluation.evaluateMoiraiMoERagCA(
@@ -59,6 +63,7 @@ report : dict = evaluation.evaluateMoiraiMoERagCA(
     collection=f"domainDatasetL2_{contextLength}_{predictionLength}",
     loadPretrainedRagCA=loadPretrainedModel,
     fineTunedModel="MoiraiMoE-finetune-fredMd-epoch=00-step=000100.ckpt",
+    inputSpace=False,
 )
 
 report : dict = evaluation.evaluateMoiraiMoERagCA(
@@ -69,71 +74,5 @@ report : dict = evaluation.evaluateMoiraiMoERagCA(
     collection=f"domainDatasetL2_{contextLength}_{predictionLength}",
     loadPretrainedRagCA=loadPretrainedModel,
     fineTunedModel="MoiraiMoE-finetune-electricityUCI-epoch=00-step=003500.ckpt",
-)
-print("chronos T5")
-
-report : dict = evaluation.evaluateChronosRagLeveling(
-    contextLength=contextLength,
-    predictionLength=predictionLength,
-    dataset="ET",
-    collection=f"domainDatasetL2_{contextLength}_{predictionLength}",
-    bolt=False,
-)
-
-report : dict = evaluation.evaluateChronosRagLeveling(
-    contextLength=contextLength,
-    predictionLength=predictionLength,
-    dataset="huaweiCloud",
-    collection=f"domainDatasetL2_{contextLength}_{predictionLength}",
-    bolt=False,
-)
-
-report : dict = evaluation.evaluateChronosRagLeveling(
-    contextLength=contextLength,
-    predictionLength=predictionLength,
-    dataset="power",
-    collection=f"domainDatasetL2_{contextLength}_{predictionLength}",
-    bolt=False,
-)
-
-report : dict = evaluation.evaluateChronosRagLeveling(
-    contextLength=contextLength,
-    predictionLength=predictionLength,
-    dataset="traffic",
-    collection=f"domainDatasetL2_{contextLength}_{predictionLength}",
-    bolt=False,
-)
-
-print("chronos Bolt")
-
-report : dict = evaluation.evaluateChronosRagLeveling(
-    contextLength=contextLength,
-    predictionLength=predictionLength,
-    dataset="ET",
-    collection=f"domainDatasetL2_{contextLength}_{predictionLength}",
-    bolt=True,
-)
-
-report : dict = evaluation.evaluateChronosRagLeveling(
-    contextLength=contextLength,
-    predictionLength=predictionLength,
-    dataset="huaweiCloud",
-    collection=f"domainDatasetL2_{contextLength}_{predictionLength}",
-    bolt=True,
-)
-
-report : dict = evaluation.evaluateChronosRagLeveling(
-    contextLength=contextLength,
-    predictionLength=predictionLength,
-    dataset="power",
-    collection=f"domainDatasetL2_{contextLength}_{predictionLength}",
-    bolt=True,
-)
-
-report : dict = evaluation.evaluateChronosRagLeveling(
-    contextLength=contextLength,
-    predictionLength=predictionLength,
-    dataset="traffic",
-    collection=f"domainDatasetL2_{contextLength}_{predictionLength}",
-    bolt=True,
+    inputSpace=False,
 )
