@@ -59,7 +59,6 @@ class Evaluation(FileSystem):
         collection : str,
         subdataset : str = "",
         trainSet : bool = False,
-        loadPretrainedModel : bool = False,
         bolt : bool = True,
     ) -> dict:
         """
@@ -68,7 +67,7 @@ class Evaluation(FileSystem):
         print(f"Evaluating Dataset {dataset}, context length : {contextLength}, prediction length : {predictionLength}, collection : {collection}_{dataset}")
         maxTestSamples : int = self._getConfig()["maxTestSamples"]
         subdatasets : list = []
-        model : Chronos = Chronos(bolt=bolt, frozen=False, loadPretrainedModel=loadPretrainedModel)
+        model : Chronos = Chronos(bolt=bolt, frozen=False)
         model.setInputSpaceCollection(collection, dataset)
 
         iterator : DatasetIterator = self.__dataset.loadDataset(dataset)
@@ -251,7 +250,6 @@ class Evaluation(FileSystem):
         trainSet : bool = False,
         inputSpace : bool = True,
         useTrainRagDatabase : bool = False,
-        loadPretrainedRagCA : bool = True,
         fineTunedModel : str = "",
     ) -> dict:
         """
@@ -266,13 +264,11 @@ class Evaluation(FileSystem):
             predictionLength = predictionLength,
             contextLength = contextLength,
             numSamples = numberSamples,
-            loadPretrainedModel=loadPretrainedRagCA,
         )
         modelFineTuned : MoiraiMoE = MoiraiMoE(
             predictionLength = predictionLength,
             contextLength = contextLength,
             numSamples = numberSamples,
-            loadPretrainedModel=False,
             loadFineTunedModel=True,
             fineTunedModel=fineTunedModel,
         )

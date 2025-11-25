@@ -580,9 +580,9 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
-expertiments:
+experiments:
   main:
-    context_horizon: [
+    context_horizons: [
       [32, 16],
       [64, 16],
       [128, 16],
@@ -592,9 +592,9 @@ expertiments:
       "ChronosT5",
       "ChronosBolt",
     ]
-    ragDatabase: [
-      "domainDatasetL2",
-    ]
+    ragDatabases:
+      domainDatasetL2:
+        inputSpace: true
     datasets: [
       "ET",
       "huaweiCloud",
@@ -604,7 +604,7 @@ expertiments:
       "electricityUCI",
     ]
   extended:
-    context_horizon: [
+    context_horizons: [
       [32, 32],
       [64, 32],
       [128, 32],
@@ -614,9 +614,9 @@ expertiments:
       "ChronosT5",
       "ChronosBolt",
     ]
-    ragDatabase: [
-      "domainDatasetL2",
-    ]
+    ragDatabases:
+      domainDatasetL2:
+        inputSpace: true
     datasets: [
       "ET",
       "huaweiCloud",
@@ -626,7 +626,7 @@ expertiments:
       "electricityUCI",
     ]
   embeddings:
-    context_horizon: [
+    context_horizons: [
       [32, 16],
       [64, 16],
       [128, 16],
@@ -634,11 +634,13 @@ expertiments:
     models: [
       "MoiraiMoE",
     ]
-    ragDatabase: [
-      "domainDatasetL2",
-      "domainDatasetCosine",
-      "domainDatasetEmbL2",
-    ]
+    ragDatabases:
+      domainDatasetL2:
+        inputSpace: true
+      domainDatasetCosine:
+        inputSpace: false
+      domainDatasetEmbL2:
+        inputSpace: false
     datasets: [
       "ET",
       "huaweiCloud",
@@ -657,6 +659,5 @@ paths:
 files:
   datasets: ["data", "datasets", "datasets.yaml"]
   databaseTracking: ["data", "databaseTracking.yaml"]
-  paramsRagCA: ["data", "models", "training_ragca_state.pth"]
   paramsFineTunedModel: ["data", "models", "RagCA", "MoiraiMoE-finetune-traffic-epoch=00-step=000008.ckpt"]
   lmdbDatabasesConfig: ["data", "datasets", "lmdbDatabases", "lmdbDatabasesConfig.yaml"]

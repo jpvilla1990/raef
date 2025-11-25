@@ -3,17 +3,13 @@ import torch
 import torch.nn.functional as F
 import torch.nn
 
-class RagCrossAttention(torch.nn.Module):
+class RAEF(torch.nn.Module):
     """
-    A class to perform cross-attention on embeddings using a multi-head attention mechanism.
-    This class is designed to augment embeddings by applying a cross-attention mechanism.
+    Class to Perform RAEF - Retrieval Augmented Extended Forecasting
     """
 
     def __init__(
-        self,
-        patchSize : int = 16,
-        pretrainedModel : str = "",
-        loadPretrainedModel : bool = False,
+        self
     ):
         """
         Initialize the EmbeddingAugmentation class.
@@ -22,13 +18,6 @@ class RagCrossAttention(torch.nn.Module):
         """
         super().__init__()
         self.__device : str = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-        if loadPretrainedModel:
-            if os.path.exists(pretrainedModel):
-                print(f"Loading pretrained model from {pretrainedModel}")
-                self.load_state_dict(
-                    torch.load(pretrainedModel, map_location=self.__device, weights_only=False),
-                )
 
     def __concat(
         self,
@@ -195,7 +184,7 @@ class RagCrossAttention(torch.nn.Module):
             return self.inferenceModified(xInput, context, scores)
 
 if __name__ == "__main__":
-    a = RagCrossAttention()
+    a = RAEF()
     x = torch.randn(5, 31)
     context = torch.randn(5, 3, 33)
     scores = torch.randn(5, 3, 1)

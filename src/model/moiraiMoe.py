@@ -18,7 +18,7 @@ from utils.utils import Utils
 
 from vectorDB.vectorDB import vectorDB
 from exceptions.modelException import ModelException
-from model.ragCrossAttention import RagCrossAttention
+from model.raef import RAEF
 
 class MoiraiMoEEmbeddings(nn.Module):
     def __init__(self, moiraRaiModule : MoiraiMoEModule):
@@ -107,7 +107,6 @@ class MoiraiMoE(FileSystem):
         batchSize : int = 1,
         createPredictor : bool = True,
         frozen : bool = True,
-        loadPretrainedModel : bool = False,
         loadFineTunedModel : bool = False,
         fineTunedModel : str = "",
     ):
@@ -167,22 +166,7 @@ class MoiraiMoE(FileSystem):
             past_feat_dynamic_real_dim=pastFeatDynamicRealDim,
         )
 
-        self.modelRagCA : RagCrossAttention = RagCrossAttention(
-            patchSize=self.__patchSize,
-            pretrainedModel=self._getFiles()["paramsRagCA"],
-            loadPretrainedModel=loadPretrainedModel,
-        )
-
-        self.modelRagCABackBone : MoiraiMoEForecast = MoiraiMoEForecast(
-            module=MoiraiMoEModule.from_pretrained(f"Salesforce/moirai-moe-1.0-R-{modelSize}"),
-            prediction_length=predictionLength,
-            context_length= contextLength + contextLength,
-            patch_size=patchSize,
-            num_samples=numSamples,
-            target_dim=targetDim,
-            feat_dynamic_real_dim=featDynamicRealDim,
-            past_feat_dynamic_real_dim=pastFeatDynamicRealDim,
-        )
+        self.raef : RAEF = RAEF()
 
         self.__moiraiMoEEmbeddings : MoiraiMoEEmbeddings = MoiraiMoEEmbeddings(self.model.module)
         self.__vectorDB : vectorDB = vectorDB()
@@ -196,12 +180,9 @@ class MoiraiMoE(FileSystem):
                 param.requires_grad = False
             for param in self.modelRag.module.parameters():
                 param.requires_grad = False
-            for param in self.modelRagCABackBone.module.parameters():
-                param.requires_grad = False
 
         self.model.module = self.model.module.to(self.__device)
         self.modelRag.module = self.modelRag.module.to(self.__device)
-        self.modelRagCABackBone.module = self.modelRagCABackBone.module.to(self.__device)
 
     def __patching(
         self,
@@ -221,7 +202,7 @@ class MoiraiMoE(FileSystem):
         zeros : torch.Tensor = torch.zeros(x.shape[0], 1, x.shape[2]).to(x.device)
         return torch.cat([zeros, x, zeros], dim=1)
 
-    def forwardRagCA(self, x : torch.Tensor, moiraiMoEOnly : bool = False) -> torch.Tensor:
+    def forwardRAEF(self, x : torch.Tensor) -> torch.Tensor:
         """
         Forward pass RAG Cross Attention
         """
@@ -267,26 +248,15 @@ class MoiraiMoE(FileSystem):
             dtype=torch.int64,
         )
 
-        if moiraiMoEOnly:
-            return self.model.module(
-                target=target,
-                observed_mask=observedMask,
-                sample_id=sampleId,
-                time_id=timeId,
-                variate_id=variateId,
-                prediction_mask=predictionMask,
-                patch_size=patchSizeTensor,
-            )
-        else:
-            return self.modelRagCABackBone.module(
-                target=target,
-                observed_mask=observedMask,
-                sample_id=sampleId,
-                time_id=timeId,
-                variate_id=variateId,
-                prediction_mask=predictionMask,
-                patch_size=patchSizeTensor,
-            )
+        return self.model.module(
+            target=target,
+            observed_mask=observedMask,
+            sample_id=sampleId,
+            time_id=timeId,
+            variate_id=variateId,
+            prediction_mask=predictionMask,
+            patch_size=patchSizeTensor,
+        )
 
     def setEmbeddingSpaceCollection(self, collectionName : str, dataset : str):
         """
@@ -435,7 +405,7 @@ class MoiraiMoE(FileSystem):
             queriedTorch : torch.Tensor = torch.Tensor(queried).unsqueeze(0)
             scoreTensor : torch.Tensor = torch.Tensor(score).unsqueeze(0)
 
-            augmentedSample, mean, std = self.modelRagCA.inference(
+            augmentedSample, mean, std = self.raef.inference(
                 xContext,
                 queriedTorch,
                 scoreTensor,
@@ -449,9 +419,8 @@ class MoiraiMoE(FileSystem):
             timeSeries : np.ndarray = augmentedSample
 
             for step in range(steps):
-                pred = self.forwardRagCA(
+                pred = self.forwardRAEF(
                     timeSeries,
-                    True,
                 )
                 #samples = pred.sample(torch.Size((self.__numberSamples,)))
                 #mean_forecast = torch.mean(samples)

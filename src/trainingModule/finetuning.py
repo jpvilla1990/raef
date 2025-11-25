@@ -82,7 +82,6 @@ class TrainingMoiraiMoE(L.LightningModule):
             future1 : concurrent.futures._base.Future = executor.submit(
                 self.backBoneModel.forwardRagCA,
                 xContext,
-                True,
             )
 
             pred = future1.result()

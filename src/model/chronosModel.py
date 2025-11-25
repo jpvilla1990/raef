@@ -4,7 +4,7 @@ import torch
 from utils.fileSystem import FileSystem
 from chronos import BaseChronosPipeline
 from vectorDB.vectorDB import vectorDB
-from model.ragCrossAttention import RagCrossAttention
+from model.raef import RAEF
 
 class Chronos(FileSystem):
     """
@@ -18,7 +18,6 @@ class Chronos(FileSystem):
         self,
         bolt : bool = False,
         frozen : bool = False,
-        loadPretrainedModel : bool = True,
     ):
         self.__bolt : bool = bolt
         self.__modelName : str = "amazon/chronos-bolt-small" if bolt else "amazon/chronos-t5-small"
@@ -33,11 +32,7 @@ class Chronos(FileSystem):
             for param in self.__model.model.parameters():
                 param.requires_grad = False
         self.__vectorDB : vectorDB = vectorDB()
-        self.__modelRagCA : RagCrossAttention = RagCrossAttention(
-            patchSize=16,
-            pretrainedModel=self._getFiles()["paramsRagCA"],
-            loadPretrainedModel=loadPretrainedModel,
-        )
+        self.raef : RAEF = RAEF()
 
     def setInputSpaceCollection(self, collectionName : str, dataset : str):
         """
@@ -76,7 +71,7 @@ class Chronos(FileSystem):
             queriedTorch : torch.Tensor = torch.Tensor(queried).unsqueeze(0)
             scoreTensor : torch.Tensor = torch.Tensor(score).unsqueeze(0)
 
-            augmentedSample, mean, std = self.__modelRagCA.inference(
+            augmentedSample, mean, std = self.raef.inference(
                 xContext,
                 queriedTorch,
                 scoreTensor,
