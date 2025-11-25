@@ -236,14 +236,9 @@ vectorDatabase:
   scoreThreshold : 0.0
   k : 16
   collections:
-    testcollection:
+    domainDatasetEmbL2_32_16:
       metric:
-        hnsw:space: "cosine"
-      context: 10
-      prediction: 5
-    chatTimeCosine_32_16:
-      metric:
-        hnsw:space: "cosine"
+        hnsw:space: "l2"
       context: 32
       prediction: 16
       datasets: [
@@ -253,30 +248,10 @@ vectorDatabase:
         "m4-monthly",
         "traffic",
         "huaweiCloud",
-      ]
-    chatTimeCosine_64_16:
-      metric:
-        hnsw:space: "cosine"
-      context: 64
-      prediction: 16
-      datasets: [
-        "ET",
-        "power",
-        "m4-monthly",
-        "traffic",
-        "huaweiCloud",
-      ]
-    chatTimeCosine_128_16:
-      metric:
-        hnsw:space: "cosine"
-      context: 128
-      prediction: 16
-      datasets: [
-        "ET",
-        "power",
-        "m4-monthly",
-        "traffic",
-        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
       ]
     domainDatasetCosine_32_16:
       metric:
