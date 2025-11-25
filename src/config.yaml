@@ -580,6 +580,73 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
+expertiments:
+  main:
+    context_horizon: [
+      [32, 16],
+      [64, 16],
+      [128, 16],
+    ]
+    models: [
+      "MoiraiMoE",
+      "ChronosT5",
+      "ChronosBolt",
+    ]
+    ragDatabase: [
+      "domainDatasetL2",
+    ]
+    datasets: [
+      "ET",
+      "huaweiCloud",
+      "power",
+      "traffic",
+      "fredMd",
+      "electricityUCI",
+    ]
+  extended:
+    context_horizon: [
+      [32, 32],
+      [64, 32],
+      [128, 32],
+    ]
+    models: [
+      "MoiraiMoE",
+      "ChronosT5",
+      "ChronosBolt",
+    ]
+    ragDatabase: [
+      "domainDatasetL2",
+    ]
+    datasets: [
+      "ET",
+      "huaweiCloud",
+      "power",
+      "traffic",
+      "fredMd",
+      "electricityUCI",
+    ]
+  embeddings:
+    context_horizon: [
+      [32, 16],
+      [64, 16],
+      [128, 16],
+    ]
+    models: [
+      "MoiraiMoE",
+    ]
+    ragDatabase: [
+      "domainDatasetL2",
+      "domainDatasetCosine",
+      "domainDatasetEmbL2",
+    ]
+    datasets: [
+      "ET",
+      "huaweiCloud",
+      "power",
+      "traffic",
+      "fredMd",
+      "electricityUCI",
+    ]
 paths:
   data: ["data"]
   datasets: ["data", "datasets"]
