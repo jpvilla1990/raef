@@ -98,6 +98,22 @@ main_32_16_ChronosT5_domainDatasetL2_huaweiCloud_seed42:
   seed: 42
   similarity_metric:
     hnsw:space: l2
+main_32_16_ChronosT5_domainDatasetL2_power_seed42:
+  context_length: 32
+  dataset: power
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_32_16
+  report:
+    base: 0.9649983814177902
+    incremental: 0.9934570516738582
+    raef: 0.8613723123780567
+    raf: 0.8918663884228134
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
 main_32_16_MoiraiMoE_domainDatasetL2_ET_seed42:
   context_length: 32
   dataset: ET

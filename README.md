@@ -20,6 +20,7 @@ Execute everything in the root folder using `./python`, this script overwrites t
 ./python runExperiment.py -e embedding -i # Run Experiment, comparing embedding space vs input space
 ```
 If the RAG databases were previously ingested, then the parameter -i can be removed to save time.
+The seeds can be changed from the file `src/config.yaml`.
 
 ## Usage
 
