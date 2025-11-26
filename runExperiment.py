@@ -36,8 +36,16 @@ def recordResults(key: str, value: dict):
     help="Ingest RAG databases.",
     default=False,
 )
-def main(experiment, ingest_rag):
+@click.option(
+    "--force-experiments",
+    "-f",
+    is_flag=True,
+    help="Force Experiments.",
+    default=False,
+)
+def main(experiment, ingest_rag, force_experiments):
     scenario : dict = config["experiments"][experiment]
+    seed : int = config["seed"]
     for context_horizon in scenario["context_horizons"]:
         context = context_horizon[0]
         horizon = context_horizon[1]
@@ -49,6 +57,12 @@ def main(experiment, ingest_rag):
                 vectorDBingestion.ingestDatasetsMoiraiMoE(ragDatabaseFullName, inputSpace)
             for model in scenario["models"]:
                 for dataset in scenario["datasets"]:
+                    experimentKey = f"{experiment}_{context}_{horizon}_{model}_{ragDatabase}_{dataset}_seed{seed}"
+                    results : dict = Utils.readYaml(resultsFile)
+                    if experimentKey in results and not force_experiments:
+                        print(f"Skipping experiment {experimentKey} as it already exists in results.")
+                        continue
+                    print(f"Running experiment {experimentKey}")
                     report : dict = dict()
                     if model == "MoiraiMoE":
                         report = evaluation.evaluateMoiraiMoERagCA(
@@ -78,15 +92,17 @@ def main(experiment, ingest_rag):
                         )
 
                     recordResults(
-                        f"{experiment}_{context}_{horizon}_{model}_{ragDatabase}_{dataset}",
+                        experimentKey,
                         {
                             "experiment": experiment,
                             "context_length": context,
+                            "seed": seed,
                             "prediction_length": horizon,
                             "model": model,
                             "rag_database": ragDatabaseFullName,
                             "dataset": dataset,
-                            "similarity_metric": scenario["ragDatabases"][ragDatabase]["inputSpace"],
+                            "input_space": scenario["ragDatabases"][ragDatabase]["inputSpace"],
+                            "similarity_metric": config["vectorDatabase"]["collections"][ragDatabaseFullName]['metric'],
                             "report": report,
                         },
                     )

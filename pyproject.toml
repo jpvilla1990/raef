@@ -52,7 +52,6 @@ cuda128 = [
 dev = [
   "pytest",
   "black",
-  "mypy",
 ]
 
 [tool.setuptools]
@@ -61,3 +60,7 @@ license-files = ["LICENSE"]
 # Ensure setuptools finds your package inside src/
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[project.urls]
+homepage = "https://github.com/jpvilla1990/raef"
+issues = "https://github.com/jpvilla1990/raef/issues"

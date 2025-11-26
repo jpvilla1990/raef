@@ -1,1 +1,168 @@
-{}
+extended_32_32_MoiraiMoE_domainDatasetL2_ET_seed42:
+  context_length: 32
+  dataset: ET
+  experiment: extended
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 32
+  rag_database: domainDatasetL2_32_32
+  report:
+    base: 1.2569982771591306
+    fineTuning: 1.2295827196618316
+    incremental: 1.170875152158771
+    raef: 1.1172026747460384
+    raf: 1.2377091327393122
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+extended_32_32_MoiraiMoE_domainDatasetL2_huaweiCloud_seed42:
+  context_length: 32
+  dataset: huaweiCloud
+  experiment: extended
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 32
+  rag_database: domainDatasetL2_32_32
+  report:
+    base: 1.811872078484514
+    fineTuning: 1.6753875696992042
+    incremental: 1.6298958584608594
+    raef: 1.404095581657477
+    raf: 1.6669831470944232
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+extended_32_32_MoiraiMoE_domainDatasetL2_power_seed42:
+  context_length: 32
+  dataset: power
+  experiment: extended
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 32
+  rag_database: domainDatasetL2_32_32
+  report:
+    base: 1.3545653929733341
+    fineTuning: 1.3461281936015876
+    incremental: 1.2078007979690937
+    raef: 1.2383157266801132
+    raf: 1.436608901405823
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+extended_32_32_MoiraiMoE_domainDatasetL2_traffic_seed42:
+  context_length: 32
+  dataset: traffic
+  experiment: extended
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 32
+  rag_database: domainDatasetL2_32_32
+  report:
+    base: 0.2606806146076186
+    fineTuning: 0.26224645190245044
+    incremental: 0.2382276494298324
+    raef: 0.2484898468061119
+    raf: 0.23541690894501213
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_32_16_ChronosT5_domainDatasetL2_ET_seed42:
+  context_length: 32
+  dataset: ET
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_32_16
+  report:
+    base: 0.9838083360166764
+    incremental: 0.9377829953644772
+    raef: 0.8930705843437705
+    raf: 0.962288487665751
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_32_16_ChronosT5_domainDatasetL2_huaweiCloud_seed42:
+  context_length: 32
+  dataset: huaweiCloud
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_32_16
+  report:
+    base: 1.099278361456903
+    incremental: 0.9757182201004589
+    raef: 0.7932619733855767
+    raf: 1.0176768191386227
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_32_16_MoiraiMoE_domainDatasetL2_ET_seed42:
+  context_length: 32
+  dataset: ET
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_32_16
+  report:
+    base: 1.0433124889074645
+    fineTuning: 1.0042806301068286
+    incremental: 0.936538332829118
+    raef: 0.8939125948109676
+    raf: 0.9671664717703082
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_32_16_MoiraiMoE_domainDatasetL2_huaweiCloud_seed42:
+  context_length: 32
+  dataset: huaweiCloud
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_32_16
+  report:
+    base: 1.1996069250992398
+    fineTuning: 1.1274599541540844
+    incremental: 1.049434856439586
+    raef: 0.9559405741603612
+    raf: 1.0925917517137118
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_32_16_MoiraiMoE_domainDatasetL2_power_seed42:
+  context_length: 32
+  dataset: power
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_32_16
+  report:
+    base: 1.1940716756566379
+    fineTuning: 1.1824062557557302
+    incremental: 0.9505768332574951
+    raef: 0.9266906717182908
+    raf: 1.0260161550048381
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_32_16_MoiraiMoE_domainDatasetL2_traffic_seed42:
+  context_length: 32
+  dataset: traffic
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_32_16
+  report:
+    base: 0.16173196355066266
+    fineTuning: 0.16267586665152872
+    incremental: 0.15580788077748303
+    raef: 0.16099389833886427
+    raf: 0.15439642170443238
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2

@@ -600,8 +600,6 @@ experiments:
       "huaweiCloud",
       "power",
       "traffic",
-      "fredMd",
-      "electricityUCI",
     ]
   extended:
     context_horizons: [
@@ -622,8 +620,6 @@ experiments:
       "huaweiCloud",
       "power",
       "traffic",
-      "fredMd",
-      "electricityUCI",
     ]
   embeddings:
     context_horizons: [

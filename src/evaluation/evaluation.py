@@ -235,10 +235,10 @@ class Evaluation(FileSystem):
                 continue
 
         return {
-            "base": np.mean(reportMASERef),
-            "raf": np.mean(reportMASERaf),
-            "incremental": np.mean(reportMASE),
-            "raef": np.mean(reportMASEExtended),
+            "base": float(np.mean(reportMASERef)),
+            "raf": float(np.mean(reportMASERaf)),
+            "incremental": float(np.mean(reportMASE)),
+            "raef": float(np.mean(reportMASEExtended)),
         }
 
     def evaluateMoiraiMoERagCA(
@@ -477,9 +477,9 @@ class Evaluation(FileSystem):
                 continue
 
         return {
-            "base": np.mean(reportMASERefBase),
-            "fineTuning": np.mean(reportMASEFineTuning),
-            "raf": np.mean(reportMASERaf),
-            "incremental": np.mean(reportMASE),
-            "raef": np.mean(reportMASEExtended),
+            "base": float(np.mean(reportMASERefBase)),
+            "fineTuning": float(np.mean(reportMASEFineTuning)),
+            "raf": float(np.mean(reportMASERaf)),
+            "incremental": float(np.mean(reportMASE)),
+            "raef": float(np.mean(reportMASEExtended)),
         }
