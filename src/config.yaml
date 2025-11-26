@@ -659,5 +659,6 @@ paths:
 files:
   datasets: ["data", "datasets", "datasets.yaml"]
   databaseTracking: ["data", "databaseTracking.yaml"]
-  paramsFineTunedModel: ["data", "models", "RagCA", "MoiraiMoE-finetune-traffic-epoch=00-step=000008.ckpt"]
+  results: ["results.yaml"]
+  paramsFineTunedModel: ["data", "models", "RagCA", "MoiraiMoE-finetune.ckpt"]
   lmdbDatabasesConfig: ["data", "datasets", "lmdbDatabases", "lmdbDatabasesConfig.yaml"]

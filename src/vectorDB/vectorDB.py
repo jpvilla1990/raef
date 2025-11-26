@@ -34,14 +34,18 @@ class vectorDB(FileSystem):
             collection : str,
             dataset : str,
             embeddingFunction : Callable = None,
+            similarity_metric : str = None,
         ):
         """
         Method to set collection
         """
+        if similarity_metric is None:
+            similarity_metric = self._getConfig()["vectorDatabase"]["collections"][collection]['metric']
+
         self.__collection : chromadb.api.models.Collection.Collection = self.__chromaClient.get_or_create_collection(
             name=f"{collection}_{dataset}",
             embedding_function=CustomEmbeddingFunction(embeddingFunction),
-            metadata=self._getConfig()["vectorDatabase"]["collections"][collection]['metric']
+            metadata=similarity_metric
         )
 
     def deleteCollection(

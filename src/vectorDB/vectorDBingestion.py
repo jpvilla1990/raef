@@ -132,8 +132,7 @@ class VectorDBIngestion(FileSystem):
             collectionDataset : str = f"{collection}_{dataset}"
             if collectionDataset in databaseTracking:
                 if dataset in databaseTracking[collectionDataset]: # Skip if the dataset is already ingested in collection
-                    pass
-                    #continue
+                    continue
 
             model : MoiraiMoE = MoiraiMoE(
                 predictionLength = collections["prediction"],

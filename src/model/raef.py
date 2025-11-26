@@ -175,8 +175,8 @@ class RAEF(torch.nn.Module):
         xInput : torch.Tensor,
         context : torch.Tensor,
         scores : torch.Tensor,
-        extended : bool,
-        thresholdDistance : float,
+        extended : bool = True,
+        thresholdDistance : float = 1.0,
     ):
         if extended:
             return self.inferenceExtended(xInput, context, scores, thresholdDistance)

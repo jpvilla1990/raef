@@ -1,5 +1,6 @@
 import click
 from utils.fileSystem import FileSystem
+from utils.utils import Utils
 from vectorDB.vectorDBingestion import VectorDBIngestion
 from evaluation.evaluation import Evaluation
 
@@ -8,6 +9,17 @@ vectorDBingestion : VectorDBIngestion = VectorDBIngestion()
 evaluation : Evaluation = Evaluation()
 
 config : dict = fileSystem._getConfig()
+resultsFile : str = fileSystem._getFiles()["results"]
+
+def recordResults(key: str, value: dict):
+    results : dict = Utils.readYaml(resultsFile)
+    if type(results) != dict:
+        results = dict()
+    results[key] = value
+    Utils.writeYaml(
+        resultsFile,
+        results,
+    )
 
 @click.command()
 @click.option(
@@ -37,24 +49,47 @@ def main(experiment, ingest_rag):
                 vectorDBingestion.ingestDatasetsMoiraiMoE(ragDatabaseFullName, inputSpace)
             for model in scenario["models"]:
                 for dataset in scenario["datasets"]:
-                    evaluation.evaluateMoiraiMoERagCA(
-                        contextLength=context,
-                        predictionLength=horizon,
-                        numberSamples=100,
-                        dataset=dataset,
-                        collection=ragDatabaseFullName,
-                        fineTunedModel=f"MoiraiMoE-finetune-{dataset}.ckpt",
-                        inputSpace=inputSpace,
+                    report : dict = dict()
+                    if model == "MoiraiMoE":
+                        report = evaluation.evaluateMoiraiMoERagCA(
+                            contextLength=context,
+                            predictionLength=horizon,
+                            numberSamples=100,
+                            dataset=dataset,
+                            collection=ragDatabaseFullName,
+                            fineTunedModel=f"MoiraiMoE-finetune-{dataset}.ckpt",
+                            inputSpace=inputSpace,
+                        )
+                    elif model == "ChronosT5":
+                        report = evaluation.evaluateChronosRagLeveling(
+                            contextLength=context,
+                            predictionLength=horizon,
+                            dataset=dataset,
+                            collection=ragDatabaseFullName,
+                            bolt=False,
+                        )
+                    elif model == "ChronosBolt":
+                        report = evaluation.evaluateChronosRagLeveling(
+                            contextLength=context,
+                            predictionLength=horizon,
+                            dataset=dataset,
+                            collection=ragDatabaseFullName,
+                            bolt=True,
+                        )
+
+                    recordResults(
+                        f"{experiment}_{context}_{horizon}_{model}_{ragDatabase}_{dataset}",
+                        {
+                            "experiment": experiment,
+                            "context_length": context,
+                            "prediction_length": horizon,
+                            "model": model,
+                            "rag_database": ragDatabaseFullName,
+                            "dataset": dataset,
+                            "similarity_metric": scenario["ragDatabases"][ragDatabase]["inputSpace"],
+                            "report": report,
+                        },
                     )
-                    print("experiment")
-                    print(context)
-                    print(horizon)
-                    print(model)
-                    print(ragDatabase)
-                    print(dataset)
-                    print(ragDatabaseFullName)
-                    print(scenario["ragDatabases"][ragDatabase]["inputSpace"])
-                    print("-------------------")
 
 if __name__ == "__main__":
     main()

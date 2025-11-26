@@ -234,10 +234,12 @@ class Evaluation(FileSystem):
                 print("Exception: " + str(e))
                 continue
 
-        print("MASE: " + str(np.mean(reportMASE)))
-        print("MASE Extended: " + str(np.mean(reportMASEExtended)))
-        print("MASE Ref: " + str(np.mean(reportMASERef)))
-        print("MASE Raf: " + str(np.mean(reportMASERaf))) 
+        return {
+            "base": np.mean(reportMASERef),
+            "raf": np.mean(reportMASERaf),
+            "incremental": np.mean(reportMASE),
+            "raef": np.mean(reportMASEExtended),
+        }
 
     def evaluateMoiraiMoERagCA(
         self,
@@ -346,13 +348,13 @@ class Evaluation(FileSystem):
                             refPred : np.ndarray = None
                             with concurrent.futures.ThreadPoolExecutor() as executor2:
                                 futurePred : concurrent.futures._base.Future = executor2.submit(
-                                    model.ragCaInference,
+                                    model.predictRaef,
                                     sample[[0, index]].iloc[:contextLength],
                                     dataset,
                                     extended=False,
                                 )
                                 futurePredExtended : concurrent.futures._base.Future = executor2.submit(
-                                    model.ragCaInference,
+                                    model.predictRaef,
                                     sample[[0, index]].iloc[:contextLength],
                                     dataset,
                                     extended=True,
@@ -473,8 +475,11 @@ class Evaluation(FileSystem):
             except Exception as e:
                 print("Exception: " + str(e))
                 continue
-        print("MASE: " + str(np.mean(reportMASE)))
-        print("MASE Extended: " + str(np.mean(reportMASEExtended)))
-        print("MASE Ref Base: " + str(np.mean(reportMASERefBase)))
-        print("MASE Raf: " + str(np.mean(reportMASERaf)))
-        print("MASE Fine Tuning: " + str(np.mean(reportMASEFineTuning)))
+
+        return {
+            "base": np.mean(reportMASERefBase),
+            "fineTuning": np.mean(reportMASEFineTuning),
+            "raf": np.mean(reportMASERaf),
+            "incremental": np.mean(reportMASE),
+            "raef": np.mean(reportMASEExtended),
+        }

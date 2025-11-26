@@ -382,7 +382,7 @@ class MoiraiMoE(FileSystem):
         #print("baseline", mean_forecast, std_forecast)
         return prediction.quantile(0.5)
 
-    def ragCaInference(
+    def predictRaef(
             self,
             sample : pd.core.frame.DataFrame,
             dataset : str,
