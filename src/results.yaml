@@ -151,6 +151,125 @@ embeddings_128_16_MoiraiMoE_domainDatasetEmbL2_ET_seed42:
   seed: 42
   similarity_metric:
     hnsw:space: l2
+embeddings_128_16_MoiraiMoE_domainDatasetEmbL2_covid19Deaths_seed42:
+  context_length: 128
+  dataset: covid19Deaths
+  experiment: embeddings
+  input_space: false
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetEmbL2_128_16
+  report:
+    base: 0.663034067944153
+    fineTuning: 0.6516558229888288
+    incremental: 0.7763085671352575
+    raef: 1.1263626207302302
+    raf: 0.6551178699576625
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+embeddings_128_16_MoiraiMoE_domainDatasetEmbL2_electricityUCI_seed42:
+  context_length: 128
+  dataset: electricityUCI
+  experiment: embeddings
+  input_space: false
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetEmbL2_128_16
+  report:
+    base: 2.4929943917754365
+    fineTuning: 2.4132102661321606
+    incremental: 2.6633898794881947
+    raef: 2.7608190354405977
+    raf: 2.555731110010026
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+embeddings_128_16_MoiraiMoE_domainDatasetEmbL2_fredMd_seed42:
+  context_length: 128
+  dataset: fredMd
+  experiment: embeddings
+  input_space: false
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetEmbL2_128_16
+  report:
+    base: 0.9064365642020513
+    fineTuning: 0.8808555278853418
+    incremental: 0.9206754895905226
+    raef: 0.9268078889751525
+    raf: 0.9131930982646858
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+embeddings_128_16_MoiraiMoE_domainDatasetEmbL2_huaweiCloud_seed42:
+  context_length: 128
+  dataset: huaweiCloud
+  experiment: embeddings
+  input_space: false
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetEmbL2_128_16
+  report:
+    base: 1.0061815674841914
+    fineTuning: 0.9339111682251394
+    incremental: 0.9612003024532929
+    raef: 0.9920167505356189
+    raf: 0.9864916197119609
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+embeddings_128_16_MoiraiMoE_domainDatasetEmbL2_nn5_seed42:
+  context_length: 128
+  dataset: nn5
+  experiment: embeddings
+  input_space: false
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetEmbL2_128_16
+  report:
+    base: 0.8225019206639083
+    fineTuning: 0.8215819944890969
+    incremental: 0.8516080241106401
+    raef: 0.8681868285214777
+    raf: 0.8253987827194246
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+embeddings_128_16_MoiraiMoE_domainDatasetEmbL2_power_seed42:
+  context_length: 128
+  dataset: power
+  experiment: embeddings
+  input_space: false
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetEmbL2_128_16
+  report:
+    base: 0.924149386211244
+    fineTuning: 0.920138057474792
+    incremental: 1.0529679002635848
+    raef: 1.0730396542162475
+    raf: 0.8974313151343416
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+embeddings_128_16_MoiraiMoE_domainDatasetEmbL2_traffic_seed42:
+  context_length: 128
+  dataset: traffic
+  experiment: embeddings
+  input_space: false
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetEmbL2_128_16
+  report:
+    base: 0.15056473186565203
+    fineTuning: 0.1509033309290698
+    incremental: 0.14800574040567427
+    raef: 0.1468558246781965
+    raf: 0.1504267330693802
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
 embeddings_128_16_MoiraiMoE_domainDatasetL2_ET_seed42:
   context_length: 128
   dataset: ET
