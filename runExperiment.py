@@ -1,4 +1,5 @@
 import click
+import pandas as pd
 from utils.fileSystem import FileSystem
 from utils.utils import Utils
 from vectorDB.vectorDBingestion import VectorDBIngestion
@@ -106,6 +107,40 @@ def main(experiment, ingest_rag, force_experiments):
                             "report": report,
                         },
                     )
+
+    finalResults : dict = Utils.readYaml(resultsFile)
+    experiments = list(finalResults.keys())
+
+    tables : dict = dict()
+    seeds : dict = dict()
+    for exp in experiments:
+        if finalResults[exp]["experiment"] != experiment:
+            continue
+
+        seeds[finalResults[exp]['seed']] = True
+
+        table_name = f"{finalResults[exp]['context_length']}_{finalResults[exp]['prediction_length']}"
+
+        if table_name not in tables:
+            tables[table_name] = dict()
+
+        if finalResults[exp]['dataset'] not in tables[table_name]:
+            tables[table_name][finalResults[exp]['dataset']] = dict()
+
+        column_name_base = f"{finalResults[exp]['model']}_{finalResults[exp]['rag_database']}"
+
+        for variant in list(finalResults[exp]['report'].keys()):
+            column_name = f"{column_name_base}_{variant}"
+            if column_name not in tables[table_name][finalResults[exp]['dataset']]:
+                tables[table_name][finalResults[exp]['dataset']][column_name] = finalResults[exp]['report'][variant]
+            else:
+                older_mean = tables[table_name][finalResults[exp]['dataset']][column_name]
+                older_n = len(seeds) - 1
+                tables[table_name][finalResults[exp]['dataset']][column_name] = ((older_mean * older_n) + finalResults[exp]['report'][variant]) / (len(seeds))
+
+    for table_name in tables:
+        df = pd.DataFrame.from_dict(tables[table_name], orient='index')
+        df.to_csv(f"experiments/{experiment}_{table_name}.csv")
 
 if __name__ == "__main__":
     main()

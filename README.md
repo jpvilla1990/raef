@@ -7,6 +7,9 @@ This project is licensed under the Apache License 2.0.
 You can read it here:  
 https://www.apache.org/licenses/LICENSE-2.0
 
+## Environment
+
+All tests and experiments were performed in `Ubuntu 24.04.2 LTS`, using an GPU `NVIDIA GeForce RTX 5090`.
 
 ## Execution
 

@@ -253,6 +253,40 @@ vectorDatabase:
         "fredMd",
         "nn5",
       ]
+    domainDatasetEmbL2_64_16:
+      metric:
+        hnsw:space: "l2"
+      context: 64
+      prediction: 16
+      datasets: [
+        "ET",
+        "solarEnergy",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
+    domainDatasetEmbL2_128_16:
+      metric:
+        hnsw:space: "l2"
+      context: 128
+      prediction: 16
+      datasets: [
+        "ET",
+        "solarEnergy",
+        "power",
+        "m4-monthly",
+        "traffic",
+        "huaweiCloud",
+        "electricityUCI",
+        "covid19Deaths",
+        "fredMd",
+        "nn5",
+      ]
     domainDatasetCosine_32_16:
       metric:
         hnsw:space: "cosine"
