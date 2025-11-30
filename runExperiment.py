@@ -22,29 +22,19 @@ def recordResults(key: str, value: dict):
         results,
     )
 
-@click.command()
-@click.option(
-    "--experiment",
-    "-e",
-    type=click.Choice(list(config["experiments"].keys()), case_sensitive=False),
-    required=True,
-    help="Experiment to run."
-)
-@click.option(
-    "--ingest-rag",
-    "-i",
-    is_flag=True,
-    help="Ingest RAG databases.",
-    default=False,
-)
-@click.option(
-    "--force-experiments",
-    "-f",
-    is_flag=True,
-    help="Force Experiments.",
-    default=False,
-)
-def main(experiment, ingest_rag, force_experiments):
+def runPerformance(experiment):
+    scenario : dict = config["experiments"][experiment]
+    seed : int = config["seed"]
+    runs = scenario["runs"]
+    for context_horizon in scenario["context_horizons"]:
+        context = context_horizon[0]
+        horizon = context_horizon[1]
+        results = evaluation.performance(context, horizon, "ET", f"domainDatasetL2_{context}_{horizon}", f"domainDatasetEmbL2_{context}_{horizon}", 100, runs)
+
+        df = pd.DataFrame.from_dict(results, orient='index')
+        df.to_csv(f"experiments/{experiment}_{context}_{horizon}.csv")
+
+def runScenarios(experiment, ingest_rag, force_experiments):
     scenario : dict = config["experiments"][experiment]
     seed : int = config["seed"]
     for context_horizon in scenario["context_horizons"]:
@@ -141,6 +131,35 @@ def main(experiment, ingest_rag, force_experiments):
     for table_name in tables:
         df = pd.DataFrame.from_dict(tables[table_name], orient='index')
         df.to_csv(f"experiments/{experiment}_{table_name}.csv")
+
+@click.command()
+@click.option(
+    "--experiment",
+    "-e",
+    type=click.Choice(list(config["experiments"].keys()), case_sensitive=False),
+    required=True,
+    help="Experiment to run."
+)
+@click.option(
+    "--ingest-rag",
+    "-i",
+    is_flag=True,
+    help="Ingest RAG databases.",
+    default=False,
+)
+@click.option(
+    "--force-experiments",
+    "-f",
+    is_flag=True,
+    help="Force Experiments.",
+    default=False,
+)
+
+def main(experiment, ingest_rag, force_experiments):
+    if experiment == "performance":
+        runPerformance(experiment)
+    else:
+        runScenarios(experiment, ingest_rag, force_experiments)
 
 if __name__ == "__main__":
     main()

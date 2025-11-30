@@ -369,17 +369,8 @@ class MoiraiMoE(FileSystem):
             }],
             freq=self.__getFrequency(sample["datetime"].iloc[0:2], timestampFormat)
         )
-        #import time
-        #start = time.perf_counter()
         prediction = next(iter(self.__predictor.predict(sampleGluonts)))
 
-        #end = time.perf_counter()
-
-        #print(f"Inference time: {(end - start) * 1000:.3f} ms")
-        
-        #mean_forecast = np.mean(prediction.samples)
-        #std_forecast = np.std(prediction.samples)
-        #print("baseline", mean_forecast, std_forecast)
         return prediction.quantile(0.5)
 
     def predictRaef(

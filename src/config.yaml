@@ -689,6 +689,13 @@ experiments:
       "nn5",
       "covid19Deaths",
     ]
+  performance:
+    context_horizons: [
+      [32, 16],
+      [64, 16],
+      [128, 16],
+    ]
+    runs: 1000000
 paths:
   data: ["data"]
   datasets: ["data", "datasets"]

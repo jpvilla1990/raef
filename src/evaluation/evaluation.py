@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import concurrent.futures
 import random
+import time
 from datasetsModule.datasets import Datasets
 from model.moiraiMoe import MoiraiMoE
 from model.chronosModel import Chronos
@@ -50,6 +51,124 @@ class Evaluation(FileSystem):
             return np.mean(
                 ((prediction - groundTruth)) ** 2,
             )
+
+    def performance(self, contextLength, predictionLength, dataset, inputSpaceCollection, embeddingSpaceCollection, numberSamples, runs):
+        """
+        Method to execute performance
+        """
+        maxTestSamples : int = self._getConfig()["maxTestSamples"]
+
+        iterator : DatasetIterator = self.__dataset.loadDataset(dataset)
+        iterator.setSampleSize(contextLength + predictionLength)
+
+        datasetConfig : dict = Utils.readYaml(
+            self._getFiles()["datasets"]
+        )
+        subdatasets = list(datasetConfig[dataset].keys())
+
+        element = subdatasets[0]
+        index = 1
+
+        iterator.resetIteration(element, True, trainPartition=self._getConfig()["trainPartition"])
+        features : list = list(iterator.getAvailableFeatures(element).keys())
+
+        input = None
+        while True:
+            sample = iterator.iterateDataset(element, features, True)
+            if sample is None:
+                continue
+            if len(sample) < predictionLength + contextLength:
+                continue
+
+            if sample[index].isna().any().any():
+                continue
+            if (sample[index] == 0.0).any().any():
+                continue
+            if (sample[index] == sample[index].mean().mean()).all().all():
+                continue
+
+            input = sample[[0, index]].iloc[:contextLength]
+            break
+
+        modelInputSpace : MoiraiMoE = MoiraiMoE(
+            predictionLength = predictionLength,
+            contextLength = contextLength,
+            numSamples = numberSamples,
+        )
+        modelEmbeddingSpace : MoiraiMoE = MoiraiMoE(
+            predictionLength = predictionLength,
+            contextLength = contextLength,
+            numSamples = numberSamples,
+        )
+        modelInputSpace.setInputSpaceCollection(inputSpaceCollection, dataset)
+        modelEmbeddingSpace.setEmbeddingSpaceCollection(embeddingSpaceCollection, dataset)
+
+        times = []
+        for _ in range(runs):
+            start = time.perf_counter()
+            modelInputSpace.inference(input, dataset)
+            end = time.perf_counter()
+            times.append(end - start)
+
+        performanceBase = np.array(times)
+        
+        times = []
+        for _ in range(runs):
+            start = time.perf_counter()
+            modelInputSpace.rafInference(input, dataset, False, False)
+            end = time.perf_counter()
+            times.append(end - start)
+
+        performanceRaf = np.array(times)
+
+        times = []
+        for _ in range(runs):
+            start = time.perf_counter()
+            modelInputSpace.predictRaef(input, dataset, extended=True)
+            end = time.perf_counter()
+            times.append(end - start)
+
+        performanceRaef = np.array(times)
+
+        times = []
+        for _ in range(runs):
+            start = time.perf_counter()
+            modelEmbeddingSpace.inference(input, dataset)
+            end = time.perf_counter()
+            times.append(end - start)
+
+        performanceBaseEmb = np.array(times)
+        
+        times = []
+        for _ in range(runs):
+            start = time.perf_counter()
+            modelEmbeddingSpace.rafInference(input, dataset, False, False)
+            end = time.perf_counter()
+            times.append(end - start)
+
+        performanceRafEmb = np.array(times)
+
+        times = []
+        for _ in range(runs):
+            start = time.perf_counter()
+            modelEmbeddingSpace.predictRaef(input, dataset, extended=True)
+            end = time.perf_counter()
+            times.append(end - start)
+
+        performanceRaefEmb = np.array(times)
+
+        return {
+            "inputSpace": {
+                "base": f"{float(np.mean(performanceBase)) * 1000} +- {float(np.std(performanceBase)) * 1000} ms",
+                "raf": f"{float(np.mean(performanceRaf)) * 1000} +- {float(np.std(performanceRaf)) * 1000} ms",
+                "raef": f"{float(np.mean(performanceRaef)) * 1000} +- {float(np.std(performanceRaef)) * 1000} ms",
+            },
+            "embeddingSpace": {
+                "base": f"{float(np.mean(performanceBaseEmb)) * 1000} +- {float(np.std(performanceBaseEmb)) * 1000} ms",
+                "raf": f"{float(np.mean(performanceRafEmb)) * 1000} +- {float(np.std(performanceRafEmb)) * 1000} ms",
+                "raef": f"{float(np.mean(performanceRaefEmb)) * 1000} +- {float(np.std(performanceRaefEmb)) * 1000} ms",
+            },
+        }
 
     def evaluateChronosRagLeveling(
         self,
