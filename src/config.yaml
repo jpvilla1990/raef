@@ -695,7 +695,7 @@ experiments:
       [64, 16],
       [128, 16],
     ]
-    runs: 1000000
+    runs: 1000
 paths:
   data: ["data"]
   datasets: ["data", "datasets"]
