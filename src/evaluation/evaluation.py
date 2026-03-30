@@ -18,6 +18,7 @@ class Evaluation(FileSystem):
         super().__init__()
         random.seed(self._getConfig()["seed"])
         self.__dataset : Datasets = Datasets()
+        self._downloadFinetunedModels()
 
     def __getMASE(self, seasonabilityError : float, groundTruth : np.ndarray, prediction : np.ndarray) -> float:
         """

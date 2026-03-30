@@ -3,6 +3,7 @@ import shutil
 import zipfile
 from pathlib import Path
 from utils.utils import Utils
+import requests
 
 class FileSystem(object):
     """
@@ -46,6 +47,20 @@ class FileSystem(object):
                 open(longPath, 'a').close()
 
         return paths
+
+    def _downloadFinetunedModels(self):
+        """
+        Method to download finetune models
+        """
+        self._createFolder(self._getPaths()["pretrainedModels"])
+        for model in self.__config["models"]["finetuneModels"]["files"]:
+            url : str = self.__config["models"]["finetuneModels"]["url"] + "/resolve/main/" + model
+            response = requests.get(url, stream=True)
+
+            with open(os.path.join(self._getPaths()["pretrainedModels"], model), "wb") as f:
+                for chunk in response.iter_content(chunk_size=8192):
+                    if chunk:
+                        f.write(chunk)
 
     def _deleteFolder(self, folder : str):
         """
