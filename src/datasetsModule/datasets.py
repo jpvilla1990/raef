@@ -45,7 +45,15 @@ class Datasets(FileSystem):
         else:
             return False
 
-    def loadDataset(self, dataset : str, forceDownload : bool = False):
+    def loadDataset(
+        self,
+        dataset : str,
+        forceDownload : bool = False,
+        grouping : dict = {
+            "separator" : "_",
+            "element" : 0,
+        },
+    ) -> DatasetIterator:
         """
         Method to load dataset
         """
@@ -58,12 +66,25 @@ class Datasets(FileSystem):
                 self.__datasets[dataset],
             )
             datasetPath : str = datasetDownloader.downloadDataset()
-            datasetConfig : dict = {
-                subDataset: os.path.join(
-                    datasetPath,
-                    *self.__datasets[dataset]["subdatasets"][subDataset]
-                ) for subDataset in self.__datasets[dataset]["subdatasets"]
-            }
+            datasetConfig : dict = {}
+            if self.__datasets[dataset]["subdatasets"]:
+                datasetConfig = {
+                    subDataset: os.path.join(
+                        datasetPath,
+                        *self.__datasets[dataset]["subdatasets"][subDataset]
+                    ) for subDataset in self.__datasets[dataset]["subdatasets"]
+                }
+            else:
+                def findFolderWithFiles(path : Path, datasetConfig : dict):
+                    for file in path.iterdir():
+                        if file.is_file():
+                            datasetConfig[file.stem] = str(file)
+                        else:
+                            datasetConfig = findFolderWithFiles(path / file, datasetConfig)
+
+                    return datasetConfig
+
+                datasetConfig = findFolderWithFiles(Path(datasetPath), datasetConfig)
 
             datasetFormat : str = self.__datasets[dataset]["format"]
             if datasetFormat == "csv":
@@ -110,4 +131,5 @@ class Datasets(FileSystem):
                 self.__loadDatasetConfig()[dataset],
                 self.__datasets[dataset],
                 self._getConfig()["seed"],
+                grouping,
             )

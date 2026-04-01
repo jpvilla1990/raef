@@ -9,7 +9,17 @@ class DatasetIterator(object):
     """
     Class to handle iterators on the datasets
     """
-    def __init__(self, name : str, datasets : dict, datasetConfig : dict, seed : int = 42):
+    def __init__(
+        self,
+        name : str,
+        datasets : dict,
+        datasetConfig : dict,
+        seed : int = 42,
+        grouping : dict = {
+            "separator" : "_",
+            "element" : 0,
+        },
+    ):
         random.seed(seed)
         self.__datasets : dict = datasets
         self.__datasetConfig : dict = datasetConfig
@@ -20,9 +30,31 @@ class DatasetIterator(object):
         self.__datasetSizes : dict = {}
 
         self.__indexIterator : dict = {subDataset : {} for subDataset in self.__datasets}
+        self.__grouping : dict = grouping
 
     def __str__(self) -> str:
         return self.__name
+
+    def getGroupedSubdatasets(self) -> dict:
+        """
+        Method to get grouped subdatasets
+        separator : str = separator used to split the subdataset name
+        element : int = element of the split name to use as group key
+        """
+        separator : str = self.__grouping["separator"]
+        element : int = self.__grouping["element"]
+
+        groups : dict = {}
+        for subdataset in self.__datasets:
+            elements : list = subdataset.split(separator)
+            group : str = subdataset.split(separator)[element] if element < len(elements) else subdataset
+
+            if group not in groups:
+                groups[group] = [subdataset]
+            else:
+                groups[group].append(subdataset)
+
+        return groups
 
     def __getDatasetMetada(self, subdataset : str) -> dict:
         """
@@ -172,10 +204,35 @@ class DatasetIterator(object):
 
         return sample
 
-    def resetIteration(self, subdataset : str, randomOrder : bool = False, trainPartition : float = 1.0):
+    def resetIteration(
+        self,
+        subdataset : str,
+        randomOrder : bool = False,
+        trainPartition : float = 1.0,
+        group : str = None,
+    ):
         """
         Method to reset dataset iteration
         """
+        if group:
+            groups : dict = self.getGroupedSubdatasets()
+            if group not in groups:
+                raise DatasetException(
+                    f"Group {group} does not exists in dataset, see available groups: {list(groups.keys())}"
+                )
+            subdatasets : list = groups[group]
+            random.shuffle(subdatasets)
+
+            for element in subdatasets:
+                self.resetIteration(
+                    subdataset=element,
+                    randomOrder=randomOrder,
+                    trainPartition=trainPartition,
+                    group=None,
+                )
+
+            return
+
         self.__datasetSizes[subdataset] = self.__getDatasetMetada(subdataset)
         self.__indexIterator[subdataset] = {}
         maxNumberSamples : int = self.__datasetSizes[subdataset]["numberObservations"]
@@ -199,6 +256,7 @@ class DatasetIterator(object):
             subdataset : str,
             features : list = [],
             train : bool = True,
+            group : str = None,
         ) -> pd.core.frame.DataFrame:
         """
         Method to iterate through out the whole dataset
@@ -206,6 +264,28 @@ class DatasetIterator(object):
         category : str = "test"
         if train:
             category = "train"
+
+        if group:
+            groups : dict = self.getGroupedSubdatasets()
+            if group not in groups:
+                raise DatasetException(
+                    f"Group {group} does not exists in dataset, see available groups: {list(groups.keys())}"
+                )
+            subdatasets : list = groups[group]
+            random.shuffle(subdatasets)
+
+            for element in subdatasets:
+                sample : pd.core.frame.DataFrame = self.iterateDataset(
+                    subdataset=element,
+                    features=features,
+                    train=train,
+                    group=None,
+                )
+
+                if sample is not None:
+                    return sample
+
+            return None
 
         if len(self.__indexIterator[subdataset][category]) == 0:
             if "frame" in self.__indexIterator[subdataset]:

@@ -65,24 +65,22 @@ models:
 datasets:
   TSB-AD-U:
     url: https://www.thedatum.org/datasets/TSB-AD-U.zip
-    type: "zip_multiple"
+    type: "zip"
     format: "csv"
     separator: ","
     decimal: "."
     timeformat: null
     seasonality: null
-    subdatasets:
-      electricity: ["LD2011_2014.txt"]
-  TSB-AD-U:
+    subdatasets: null
+  TSB-AD-M:
     url: https://www.thedatum.org/datasets/TSB-AD-M.zip
-    type: "zip_multiple"
+    type: "zip"
     format: "csv"
     separator: ","
     decimal: "."
     timeformat: null
     seasonality: null
-    subdatasets:
-      electricity: ["LD2011_2014.txt"]
+    subdatasets: null
   ET:
     url: "https://github.com/zhouhaoyi/ETDataset"
     type: "gitRepository"
