@@ -50,6 +50,8 @@ def runScenarios(experiment, ingest_rag, force_experiments):
                 for dataset in scenario["datasets"]:
                     experimentKey = f"{experiment}_{context}_{horizon}_{model}_{ragDatabase}_{dataset}_seed{seed}"
                     results : dict = Utils.readYaml(resultsFile)
+                    if type(results) != dict:
+                        results = dict()
                     if experimentKey in results and not force_experiments:
                         print(f"Skipping experiment {experimentKey} as it already exists in results.")
                         continue

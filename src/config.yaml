@@ -72,6 +72,7 @@ datasets:
     timeformat: null
     seasonality: null
     subdatasets: null
+    anomaly: true
   TSB-AD-M:
     url: https://www.thedatum.org/datasets/TSB-AD-M.zip
     type: "zip"
@@ -81,6 +82,7 @@ datasets:
     timeformat: null
     seasonality: null
     subdatasets: null
+    anomaly: true
   ET:
     url: "https://github.com/zhouhaoyi/ETDataset"
     type: "gitRepository"

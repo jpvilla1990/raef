@@ -8,6 +8,9 @@ iterator = datasets.loadDataset(
         "element" : 1,
     },
 )
+
+iterator.setSampleSize(64)
+
 datasetNames = iterator.getGroupedSubdatasets()
 print(datasetNames.keys())
 

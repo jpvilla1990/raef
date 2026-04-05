@@ -1,0 +1,62 @@
+# CUDA base (Ubuntu 22.04)
+FROM pytorch/pytorch:2.2.0-cuda12.1-cudnn8-runtime
+
+# Avoid prompts
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install Python 3.12 + system deps
+RUN apt-get update && apt-get install -y \
+    software-properties-common \
+    curl \
+    git \
+    build-essential \
+    && add-apt-repository ppa:deadsnakes/ppa \
+    && apt-get update && apt-get install -y \
+    python3.12 \
+    python3.12-venv \
+    python3.12-dev \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set Python 3.12 as default
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.12 1
+
+# Upgrade pip
+RUN python -m pip install --upgrade pip
+
+# Install uv
+RUN curl -Ls https://astral.sh/uv/install.sh | sh
+
+# Add uv to PATH
+ENV PATH="/root/.local/bin:$PATH"
+ENV PATH="/usr/bin:$PATH"
+
+# Verify installation
+RUN uv --version
+
+# Set workdir
+WORKDIR /app
+
+# Copy project
+RUN mkdir src
+COPY src/datasetsModule src/datasetsModule
+COPY src/evaluation src/evaluation
+COPY src/trainingModule src/trainingModule
+COPY src/datasetsModule src/datasetsModule
+COPY src/exceptions src/exceptions
+COPY src/model src/model
+COPY src/utils src/utils
+COPY src/vectorDB src/vectorDB
+COPY src/__init__.py src/__init__.py
+COPY src/config.yaml src/config.yaml
+COPY src/fineTuneMoiraiMoE.py src/fineTuneMoiraiMoE.py
+COPY pyproject.toml .
+COPY python .
+COPY runExperiment.py .
+COPY uv.lock .
+
+RUN uv sync
+RUN uv run ./python --version
+
+# Default command
+CMD ["python", "runExperiment.py"]

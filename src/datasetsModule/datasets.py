@@ -60,6 +60,8 @@ class Datasets(FileSystem):
         if dataset not in self.__datasets:
             raise DatasetException(f"Dataset {dataset} does not exists")
 
+        anomaly : bool = self.__datasets[dataset]["anomaly"] if "anomaly" in self.__datasets[dataset] else False
+
         if not self.__verifyDatasetIsDownloaded(dataset) or forceDownload:
             datasetDownloader : DatasetDownloader = DatasetDownloader(
                 dataset,
@@ -131,5 +133,6 @@ class Datasets(FileSystem):
                 self.__loadDatasetConfig()[dataset],
                 self.__datasets[dataset],
                 self._getConfig()["seed"],
+                anomaly,
                 grouping,
             )

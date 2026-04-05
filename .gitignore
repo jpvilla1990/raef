@@ -5,3 +5,5 @@ dist
 **/*.egg-info
 src/data
 src/pretrained
+
+.env

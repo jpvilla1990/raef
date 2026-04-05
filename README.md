@@ -120,3 +120,8 @@ if queried is not None:
 else:
     prediction = model(query)
 ```
+
+
+### Run in Docker
+
+ docker run -it --gpus all  ghcr.io/jpvilla1990/raef_env:0.1.0 /bin/bash

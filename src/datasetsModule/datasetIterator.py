@@ -15,6 +15,7 @@ class DatasetIterator(object):
         datasets : dict,
         datasetConfig : dict,
         seed : int = 42,
+        anomaly : bool = False,
         grouping : dict = {
             "separator" : "_",
             "element" : 0,
@@ -31,6 +32,7 @@ class DatasetIterator(object):
 
         self.__indexIterator : dict = {subDataset : {} for subDataset in self.__datasets}
         self.__grouping : dict = grouping
+        self.__anomaly : bool = anomaly
 
     def __str__(self) -> str:
         return self.__name
@@ -165,6 +167,8 @@ class DatasetIterator(object):
         Method to load samples
         """
         self.__features[subdataset] = self.getAvailableFeatures(subdataset)
+
+        features = [] if self.__anomaly else features
 
         self.__datasetSizes[subdataset] = self.__getDatasetMetada(subdataset)
         sample : pd.core.frame.DataFrame = None
