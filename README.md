@@ -124,4 +124,9 @@ else:
 
 ### Run in Docker
 
- docker run -it --gpus all  ghcr.io/jpvilla1990/raef_env:0.1.0 /bin/bash
+The same commands can be executed inside a docker container:
+
+```bash
+docker run -it --gpus all -v ./data:/app/src/data ghcr.io/jpvilla1990/raef_env:0.1.0 /bin/bash
+uv run python runExperiment.py -e main -i
+```
