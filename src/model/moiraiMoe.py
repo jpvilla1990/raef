@@ -144,7 +144,11 @@ class MoiraiMoE(FileSystem):
         )
 
         if loadFineTunedModel:
-            checkpoint : dict = torch.load(os.path.join(self._getPaths()["pretrainedModels"], fineTunedModel), weights_only=False)
+            checkpoint : dict = torch.load(
+                os.path.join(self._getPaths()["pretrainedModels"],fineTunedModel),
+                weights_only=False,
+                map_location=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
+            )
             parsedCheckpoint : dict = {}
             for key in checkpoint["state_dict"].keys():
                 if key.startswith("model.module."):

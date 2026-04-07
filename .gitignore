@@ -6,5 +6,7 @@ dist
 src/data
 data
 src/pretrained
+pretrained
+results.yaml
 
 .env

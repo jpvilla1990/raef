@@ -127,6 +127,13 @@ else:
 The same commands can be executed inside a docker container:
 
 ```bash
-docker run -it --gpus all -v ./data:/app/src/data ghcr.io/jpvilla1990/raef_env:0.1.0 /bin/bash
+touch results.yaml
+# Cuda not available
+docker run -it -v ./data:/app/src/data -v ./results.yaml:/app/src/results.yaml -v ./pretrained:/app/src/pretrained ghcr.io/jpvilla1990/raef_env:0.1.0 /bin/bash
+
+# Cuda available
+docker run -it --gpus all -v ./data:/app/src/data -v ./results.yaml:/app/src/results.yaml -v ./pretrained:/app/src/pretrained ghcr.io/jpvilla1990/raef_env:0.1.0 /bin/bash
+
+# Inside docker session
 uv run python runExperiment.py -e main -i
 ```
