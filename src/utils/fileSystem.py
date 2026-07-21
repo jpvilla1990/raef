@@ -55,6 +55,8 @@ class FileSystem(object):
         self._createFolder(self._getPaths()["pretrainedModels"])
         for model in self.__config["models"]["finetuneModels"]["files"]:
             url : str = self.__config["models"]["finetuneModels"]["url"] + "/resolve/main/" + model
+            if os.path.exists(os.path.join(self._getPaths()["pretrainedModels"], model)):
+                continue
             response = requests.get(url, stream=True)
 
             with open(os.path.join(self._getPaths()["pretrainedModels"], model), "wb") as f:

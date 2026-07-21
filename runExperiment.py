@@ -84,6 +84,14 @@ def runScenarios(experiment, ingest_rag, force_experiments):
                             bolt=True,
                         )
 
+                    elif model == "patchTST":
+                        report = evaluation.evaluatePatchTSTRagLeveling(
+                            contextLength=context,
+                            predictionLength=horizon,
+                            dataset=dataset,
+                            collection=ragDatabaseFullName,
+                        )
+
                     recordResults(
                         experimentKey,
                         {

@@ -2790,6 +2790,392 @@ main_128_16_MoiraiMoE_domainDatasetL2_traffic_seed42:
   seed: 42
   similarity_metric:
     hnsw:space: l2
+main_256_16_ChronosBolt_domainDatasetL2_ET_seed42:
+  context_length: 256
+  dataset: ET
+  experiment: main
+  input_space: true
+  model: ChronosBolt
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 0.7007289712516517
+    incremental: 0.7048457463970675
+    raef: 0.7419086541453095
+    raf: 0.7152500739410667
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_ChronosBolt_domainDatasetL2_covid19Deaths_seed42:
+  context_length: 256
+  dataset: covid19Deaths
+  experiment: main
+  input_space: true
+  model: ChronosBolt
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: .nan
+    incremental: .nan
+    raef: .nan
+    raf: .nan
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_ChronosBolt_domainDatasetL2_electricityUCI_seed42:
+  context_length: 256
+  dataset: electricityUCI
+  experiment: main
+  input_space: true
+  model: ChronosBolt
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 0.8194823737309873
+    incremental: 0.8784223521223177
+    raef: 1.1854237297568142
+    raf: 0.9697609240626757
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_ChronosBolt_domainDatasetL2_fredMd_seed42:
+  context_length: 256
+  dataset: fredMd
+  experiment: main
+  input_space: true
+  model: ChronosBolt
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 1.027688507740259
+    incremental: 0.9929244127170969
+    raef: 1.0084111660888557
+    raf: 0.9570309580384335
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_ChronosBolt_domainDatasetL2_huaweiCloud_seed42:
+  context_length: 256
+  dataset: huaweiCloud
+  experiment: main
+  input_space: true
+  model: ChronosBolt
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 1.3136831277469736
+    incremental: 1.298556030275701
+    raef: 1.3606255739822974
+    raf: 1.312911044369283
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_ChronosBolt_domainDatasetL2_nn5_seed42:
+  context_length: 256
+  dataset: nn5
+  experiment: main
+  input_space: true
+  model: ChronosBolt
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 0.837837350445794
+    incremental: 0.9305134372476279
+    raef: 0.9461323753028923
+    raf: 0.9226234527968898
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_ChronosBolt_domainDatasetL2_power_seed42:
+  context_length: 256
+  dataset: power
+  experiment: main
+  input_space: true
+  model: ChronosBolt
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 0.6417969048246664
+    incremental: 0.6686505172110121
+    raef: 0.6708683200721435
+    raf: 0.6747109725098326
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_ChronosBolt_domainDatasetL2_traffic_seed42:
+  context_length: 256
+  dataset: traffic
+  experiment: main
+  input_space: true
+  model: ChronosBolt
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 0.15896137115851464
+    incremental: 0.15819657222739597
+    raef: 0.16129330260456676
+    raf: 0.15127986501431037
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_ChronosT5_domainDatasetL2_ET_seed42:
+  context_length: 256
+  dataset: ET
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 0.7283741948090742
+    incremental: 0.780937752810386
+    raef: 0.7046072749447886
+    raf: 0.7229587838067134
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_ChronosT5_domainDatasetL2_covid19Deaths_seed42:
+  context_length: 256
+  dataset: covid19Deaths
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: .nan
+    incremental: .nan
+    raef: .nan
+    raf: .nan
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_ChronosT5_domainDatasetL2_electricityUCI_seed42:
+  context_length: 256
+  dataset: electricityUCI
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 0.7955944203634979
+    incremental: 1.1599570136123472
+    raef: 1.1479526380144107
+    raf: 0.8491680920893341
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_ChronosT5_domainDatasetL2_fredMd_seed42:
+  context_length: 256
+  dataset: fredMd
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 1.0615408582918873
+    incremental: 1.0158184397279695
+    raef: 0.8314891045781414
+    raf: 1.0005827625691632
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_ChronosT5_domainDatasetL2_huaweiCloud_seed42:
+  context_length: 256
+  dataset: huaweiCloud
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 1.0511471510505517
+    incremental: 0.8706522319581647
+    raef: 0.6373263402656029
+    raf: 0.9301810585808505
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_ChronosT5_domainDatasetL2_nn5_seed42:
+  context_length: 256
+  dataset: nn5
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 0.8492587134890145
+    incremental: 0.8717130638764335
+    raef: 0.7938475858127613
+    raf: 0.858035622566169
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_ChronosT5_domainDatasetL2_power_seed42:
+  context_length: 256
+  dataset: power
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 0.6442861007067756
+    incremental: 0.8101915647793018
+    raef: 0.7089957538861285
+    raf: 0.6601147919019134
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_ChronosT5_domainDatasetL2_traffic_seed42:
+  context_length: 256
+  dataset: traffic
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 0.1853895168700361
+    incremental: 0.17383859141003918
+    raef: 0.18382761858522714
+    raf: 0.17980570524909406
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_MoiraiMoE_domainDatasetL2_ET_seed42:
+  context_length: 256
+  dataset: ET
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 0.8010898424348477
+    fineTuning: 0.7926401178961955
+    incremental: 0.795978013994842
+    raef: 0.7747819647936557
+    raf: 0.8025066319204774
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_MoiraiMoE_domainDatasetL2_covid19Deaths_seed42:
+  context_length: 256
+  dataset: covid19Deaths
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: .nan
+    incremental: .nan
+    raef: .nan
+    raf: .nan
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_MoiraiMoE_domainDatasetL2_electricityUCI_seed42:
+  context_length: 256
+  dataset: electricityUCI
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 1.8634288486167454
+    incremental: 1.792731774049333
+    raef: 1.4912801277107728
+    raf: 1.8522462313040364
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_MoiraiMoE_domainDatasetL2_fredMd_seed42:
+  context_length: 256
+  dataset: fredMd
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 1.024277588155772
+    incremental: 0.9935958221875105
+    raef: 0.9075016406645096
+    raf: 1.0246312304021716
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_MoiraiMoE_domainDatasetL2_huaweiCloud_seed42:
+  context_length: 256
+  dataset: huaweiCloud
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 1.0595195994642101
+    fineTuning: 1.0149821463057975
+    incremental: 0.9740605569905725
+    raef: 0.8960798939641803
+    raf: 1.0658110115560329
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_MoiraiMoE_domainDatasetL2_nn5_seed42:
+  context_length: 256
+  dataset: nn5
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 0.847629949808707
+    incremental: 0.8517481680675578
+    raef: 0.8855154078167039
+    raf: 0.8459118359065675
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_MoiraiMoE_domainDatasetL2_power_seed42:
+  context_length: 256
+  dataset: power
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 0.7497940316969949
+    incremental: 0.7625973055679498
+    raef: 0.7569966337871686
+    raf: 0.7475399971408968
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_256_16_MoiraiMoE_domainDatasetL2_traffic_seed42:
+  context_length: 256
+  dataset: traffic
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_256_16
+  report:
+    base: 0.14608971572037635
+    incremental: 0.14390177641245094
+    raef: 0.1439739553966489
+    raf: 0.14547832362275254
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
 main_32_16_ChronosBolt_domainDatasetL2_ET_seed42:
   context_length: 32
   dataset: ET
@@ -3179,6 +3565,390 @@ main_32_16_MoiraiMoE_domainDatasetL2_traffic_seed42:
     incremental: 0.15580788077748303
     raef: 0.16099389833886427
     raf: 0.15439642170443238
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_ChronosBolt_domainDatasetL2_ET_seed42:
+  context_length: 512
+  dataset: ET
+  experiment: main
+  input_space: true
+  model: ChronosBolt
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.6560047251747478
+    incremental: 0.6615687950733955
+    raef: 0.6651850482042585
+    raf: 0.6669880440201167
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_ChronosBolt_domainDatasetL2_covid19Deaths_seed42:
+  context_length: 512
+  dataset: covid19Deaths
+  experiment: main
+  input_space: true
+  model: ChronosBolt
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: .nan
+    incremental: .nan
+    raef: .nan
+    raf: .nan
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_ChronosBolt_domainDatasetL2_electricityUCI_seed42:
+  context_length: 512
+  dataset: electricityUCI
+  experiment: main
+  input_space: true
+  model: ChronosBolt
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.8800728583300679
+    incremental: 1.0859765509615371
+    raef: 1.118597480433797
+    raf: 0.9891569318531434
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_ChronosBolt_domainDatasetL2_fredMd_seed42:
+  context_length: 512
+  dataset: fredMd
+  experiment: main
+  input_space: true
+  model: ChronosBolt
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 1.4930283680841034
+    incremental: 1.476107731066927
+    raef: 1.3561399118475381
+    raf: 1.3710408841033501
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_ChronosBolt_domainDatasetL2_huaweiCloud_seed42:
+  context_length: 512
+  dataset: huaweiCloud
+  experiment: main
+  input_space: true
+  model: ChronosBolt
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.9552811374890856
+    incremental: 1.0100260648831763
+    raef: 0.9750273942679807
+    raf: 1.0144256062192907
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_ChronosBolt_domainDatasetL2_nn5_seed42:
+  context_length: 512
+  dataset: nn5
+  experiment: main
+  input_space: true
+  model: ChronosBolt
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.8029017154895677
+    incremental: 0.8311380178478485
+    raef: 0.8086931391511963
+    raf: 0.8175300273140284
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_ChronosBolt_domainDatasetL2_power_seed42:
+  context_length: 512
+  dataset: power
+  experiment: main
+  input_space: true
+  model: ChronosBolt
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.6027982936244056
+    incremental: 0.6293875516713983
+    raef: 0.6320062219884929
+    raf: 0.6244207405726357
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_ChronosBolt_domainDatasetL2_traffic_seed42:
+  context_length: 512
+  dataset: traffic
+  experiment: main
+  input_space: true
+  model: ChronosBolt
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.15218341530962265
+    incremental: 0.15074701875677154
+    raef: 0.1600692363371756
+    raf: 0.15600839670407163
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_ChronosT5_domainDatasetL2_ET_seed42:
+  context_length: 512
+  dataset: ET
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.6783527102071686
+    incremental: 0.7146110822376044
+    raef: 0.7133230581465857
+    raf: 0.6780528545447655
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_ChronosT5_domainDatasetL2_covid19Deaths_seed42:
+  context_length: 512
+  dataset: covid19Deaths
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: .nan
+    incremental: .nan
+    raef: .nan
+    raf: .nan
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_ChronosT5_domainDatasetL2_electricityUCI_seed42:
+  context_length: 512
+  dataset: electricityUCI
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.8713433865106386
+    incremental: 1.084891026292813
+    raef: 1.09692878940499
+    raf: 0.8731673035533136
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_ChronosT5_domainDatasetL2_fredMd_seed42:
+  context_length: 512
+  dataset: fredMd
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 1.3922132333805073
+    incremental: 1.4623789552347146
+    raef: 1.4326478046853344
+    raf: 1.4238650779567523
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_ChronosT5_domainDatasetL2_huaweiCloud_seed42:
+  context_length: 512
+  dataset: huaweiCloud
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.7914635395430317
+    incremental: 0.7433318106847009
+    raef: 0.7448248294360059
+    raf: 0.7927731192698817
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_ChronosT5_domainDatasetL2_nn5_seed42:
+  context_length: 512
+  dataset: nn5
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.8583188247771512
+    incremental: 0.8362127177583025
+    raef: 0.8370525856809512
+    raf: 0.8569694562891403
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_ChronosT5_domainDatasetL2_power_seed42:
+  context_length: 512
+  dataset: power
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.610958011489408
+    incremental: 0.7503728137817197
+    raef: 0.7469659773838201
+    raf: 0.6136900363809878
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_ChronosT5_domainDatasetL2_traffic_seed42:
+  context_length: 512
+  dataset: traffic
+  experiment: main
+  input_space: true
+  model: ChronosT5
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.17815107053937532
+    incremental: 0.18198389463809955
+    raef: 0.18158900453808988
+    raf: 0.178057119210397
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_MoiraiMoE_domainDatasetL2_ET_seed42:
+  context_length: 512
+  dataset: ET
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.757052656821548
+    incremental: 0.7519706771955583
+    raef: 0.7478017490714812
+    raf: 0.7611100021854477
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_MoiraiMoE_domainDatasetL2_covid19Deaths_seed42:
+  context_length: 512
+  dataset: covid19Deaths
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: .nan
+    incremental: .nan
+    raef: .nan
+    raf: .nan
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_MoiraiMoE_domainDatasetL2_electricityUCI_seed42:
+  context_length: 512
+  dataset: electricityUCI
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 1.7939175451041978
+    incremental: 1.8182383170908156
+    raef: 1.614559620398943
+    raf: 1.8545134060108948
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_MoiraiMoE_domainDatasetL2_fredMd_seed42:
+  context_length: 512
+  dataset: fredMd
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 1.5097368597426146
+    incremental: 1.4619502100601343
+    raef: 1.3376386143644592
+    raf: 1.5335680565862724
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_MoiraiMoE_domainDatasetL2_huaweiCloud_seed42:
+  context_length: 512
+  dataset: huaweiCloud
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.8603216160784123
+    incremental: 0.853922179234501
+    raef: 0.8819055594675261
+    raf: 0.868611866200727
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_MoiraiMoE_domainDatasetL2_nn5_seed42:
+  context_length: 512
+  dataset: nn5
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.8590363744076874
+    incremental: 0.8720337958477709
+    raef: 0.9737776757536982
+    raf: 0.8567475237575155
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_MoiraiMoE_domainDatasetL2_power_seed42:
+  context_length: 512
+  dataset: power
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.6742656243656866
+    incremental: 0.6690551968089249
+    raef: 0.7084360929498582
+    raf: 0.6726131519331983
+  seed: 42
+  similarity_metric:
+    hnsw:space: l2
+main_512_16_MoiraiMoE_domainDatasetL2_traffic_seed42:
+  context_length: 512
+  dataset: traffic
+  experiment: main
+  input_space: true
+  model: MoiraiMoE
+  prediction_length: 16
+  rag_database: domainDatasetL2_512_16
+  report:
+    base: 0.14018805339377383
+    incremental: 0.13834939078632877
+    raef: 0.14324525295758514
+    raf: 0.14023912821800008
   seed: 42
   similarity_metric:
     hnsw:space: l2
