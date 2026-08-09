@@ -4,7 +4,7 @@ Juan Pablo Villa Serna, Rohan Asthana, Vasileios Belagiannis
 
 This repository contains the code for the paper titled "Model-Agnostic Retrieval-Augmented Extended Forecasting for time series" [\[link\]](https://openreview.net/forum?id=0cObY4psfH).
 
-[![PDF preview](./teezerRAEF.png)](./teezerRAEF.pdf)
+[![PDF preview](./teezerRAEF.png)](./teezerRAEF.png)
 
 ## Abstract
 
