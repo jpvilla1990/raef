@@ -1,12 +1,5 @@
 # Retrieval-Augmented Extended Forecasting
 
-
-## License
-
-This project is licensed under the Apache License 2.0.  
-You can read it here:  
-https://www.apache.org/licenses/LICENSE-2.0
-
 ## Environment
 
 All tests and experiments were performed in `Ubuntu 24.04.2 LTS`, using an GPU `NVIDIA GeForce RTX 5090`.
@@ -137,3 +130,10 @@ docker run -it --gpus all -v ./data:/app/src/data -v ./results.yaml:/app/src/res
 # Inside docker session
 uv run python runExperiment.py -e main -i
 ```
+
+
+## License
+
+This project is licensed under the Apache License 2.0.  
+You can read it here:  
+https://www.apache.org/licenses/LICENSE-2.0
