@@ -5,11 +5,11 @@ import lightning as L
 from lightning.pytorch.callbacks import ModelCheckpoint
 from torch.utils.data import DataLoader
 
-from utils.fileSystem import FileSystem
-from utils.utils import Utils
-from model.moiraiMoe import MoiraiMoE
-from datasetsModule.datasetTrainingIterator import DatasetTrainingIterator
-from utils.utils import Utils
+from raef.utils.fileSystem import FileSystem
+from raef.utils.utils import Utils
+from raef.model.moiraiMoe import MoiraiMoE
+from raef.datasetsModule.datasetTrainingIterator import DatasetTrainingIterator
+from raef.utils.utils import Utils
 
 class TrainingMoiraiMoE(L.LightningModule):
     def __init__(

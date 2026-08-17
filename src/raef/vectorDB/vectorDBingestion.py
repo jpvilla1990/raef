@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
-from utils.utils import Utils
-from utils.fileSystem import FileSystem
-from datasetsModule.datasets import Datasets
-from datasetsModule.datasetIterator import DatasetIterator
-from model.moiraiMoe import MoiraiMoE
+from raef.utils.utils import Utils
+from raef.utils.fileSystem import FileSystem
+from raef.datasetsModule.datasets import Datasets
+from raef.datasetsModule.datasetIterator import DatasetIterator
+from raef.model.moiraiMoe import MoiraiMoE
 
 class VectorDBIngestion(FileSystem):
     """

@@ -4,7 +4,9 @@ Juan Pablo Villa Serna, Rohan Asthana, Vasileios Belagiannis
 
 This repository contains the code for the paper titled "Model-Agnostic Retrieval-Augmented Extended Forecasting for time series" [\[link\]](https://openreview.net/forum?id=0cObY4psfH).
 
-[![PDF preview](./teezerRAEF.png)](./teezerRAEF.png)
+[![PDF preview](https://raw.githubusercontent.com/jpvilla1990/raef/master/teezerRAEF.png)](teezerRAEF.png)
+
+[![PyPI](https://img.shields.io/pypi/v/raef.svg)](https://pypi.org/project/raef/)
 
 ## Abstract
 
@@ -37,7 +39,7 @@ Results are generated in the folder `experiments/`
 ```python
 import torch
 import numpy as np
-from vectorDB.vectorDB import vectorDB
+from raef.vectorDB.vectorDB import vectorDB
 
 # Ingest samples to RAG database
 
@@ -75,8 +77,8 @@ while count < 100:
 ```python
 import numpy as np
 import torch
-from vectorDB.vectorDB import vectorDB
-from model.raef import RAEF
+from raef.vectorDB.vectorDB import vectorDB
+from raef.model.raef import RAEF
 
 # Load RAG database
 
@@ -141,6 +143,14 @@ docker run -it --gpus all -v ./data:/app/src/data -v ./results.yaml:/app/src/res
 uv run python runExperiment.py -e main -i
 ```
 
+
+## Installation
+
+Install the latest release from PyPI:
+
+```bash
+pip install raef
+```
 
 ## License
 

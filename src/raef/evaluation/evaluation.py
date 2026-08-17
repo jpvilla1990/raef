@@ -3,12 +3,12 @@ import numpy as np
 import concurrent.futures
 import random
 import time
-from datasetsModule.datasets import Datasets
-from model.moiraiMoe import MoiraiMoE
-from model.chronosModel import Chronos
-from utils.fileSystem import FileSystem
-from utils.utils import Utils
-from datasetsModule.datasetIterator import DatasetIterator
+from raef.datasetsModule.datasets import Datasets
+from raef.model.moiraiMoe import MoiraiMoE
+from raef.model.chronosModel import Chronos
+from raef.utils.fileSystem import FileSystem
+from raef.utils.utils import Utils
+from raef.datasetsModule.datasetIterator import DatasetIterator
 
 class Evaluation(FileSystem):
     """

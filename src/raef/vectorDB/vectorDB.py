@@ -4,7 +4,7 @@ import numpy as np
 import chromadb
 from chromadb.config import Settings
 from chromadb import Documents, EmbeddingFunction, Embeddings
-from utils.fileSystem import FileSystem
+from raef.utils.fileSystem import FileSystem
 
 class CustomEmbeddingFunction(EmbeddingFunction):
     """

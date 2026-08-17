@@ -1,14 +1,14 @@
 import os
 from pathlib import Path
 import pandas as pd
-from utils.fileSystem import FileSystem
-from utils.utils import Utils
-from exceptions.datasetException import DatasetException
-from datasetsModule.datasetDownloader import DatasetDownloader
-from datasetsModule.datasetIterator import DatasetIterator
-from datasetsModule.huggingFaceIterator import HuggingFaceIterator
-from datasetsModule.monashPreparer import MonashPreparer
-from utils.utils import Utils
+from raef.utils.fileSystem import FileSystem
+from raef.utils.utils import Utils
+from raef.exceptions.datasetException import DatasetException
+from raef.datasetsModule.datasetDownloader import DatasetDownloader
+from raef.datasetsModule.datasetIterator import DatasetIterator
+from raef.datasetsModule.huggingFaceIterator import HuggingFaceIterator
+from raef.datasetsModule.monashPreparer import MonashPreparer
+from raef.utils.utils import Utils
 
 class Datasets(FileSystem):
     """

@@ -12,13 +12,13 @@ import uni2ts
 from uni2ts.model.moirai_moe import MoiraiMoEForecast, MoiraiMoEModule
 from gluonts.dataset.common import ListDataset
 
-from utils.timeManager import TimeManager
-from utils.fileSystem import FileSystem
-from utils.utils import Utils
+from raef.utils.timeManager import TimeManager
+from raef.utils.fileSystem import FileSystem
+from raef.utils.utils import Utils
 
-from vectorDB.vectorDB import vectorDB
-from exceptions.modelException import ModelException
-from model.raef import RAEF
+from raef.vectorDB.vectorDB import vectorDB
+from raef.exceptions.modelException import ModelException
+from raef.model.raef import RAEF
 
 class MoiraiMoEEmbeddings(nn.Module):
     def __init__(self, moiraRaiModule : MoiraiMoEModule):

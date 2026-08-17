@@ -2,8 +2,8 @@ import random
 import math
 import pandas as pd
 import numpy as np
-from exceptions.datasetException import DatasetException
-from utils.utils import Utils
+from raef.exceptions.datasetException import DatasetException
+from raef.utils.utils import Utils
 
 class DatasetIterator(object):
     """

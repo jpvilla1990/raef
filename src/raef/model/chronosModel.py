@@ -1,10 +1,10 @@
 import uuid
 import numpy as np
 import torch
-from utils.fileSystem import FileSystem
+from raef.utils.fileSystem import FileSystem
 from chronos import BaseChronosPipeline
-from vectorDB.vectorDB import vectorDB
-from model.raef import RAEF
+from raef.vectorDB.vectorDB import vectorDB
+from raef.model.raef import RAEF
 
 class Chronos(FileSystem):
     """

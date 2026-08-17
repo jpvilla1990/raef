@@ -1,9 +1,9 @@
 import click
 import pandas as pd
-from utils.fileSystem import FileSystem
-from utils.utils import Utils
-from vectorDB.vectorDBingestion import VectorDBIngestion
-from evaluation.evaluation import Evaluation
+from raef.utils.fileSystem import FileSystem
+from raef.utils.utils import Utils
+from raef.vectorDB.vectorDBingestion import VectorDBIngestion
+from raef.evaluation.evaluation import Evaluation
 
 fileSystem : FileSystem = FileSystem()
 vectorDBingestion : VectorDBIngestion = VectorDBIngestion()

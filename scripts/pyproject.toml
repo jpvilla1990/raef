@@ -4,16 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "raef"
-version = "0.1.0"
-description = "Retrieval-Augmented Extended Forecasting"
+version = "0.2.0"
 readme = "README.md"
 requires-python = ">=3.12,<3.13.0"
-license = { text = "Apache-2.0" }
-authors = [
-  { name="Juan Pablo Villa Serna", email="juan.pablo.villa@fau.de" }
-]
-
-# required dependencies
+license = {text = "Apache-2.0"}
 dependencies = [
   "torch>=2.7.0,<2.8.0",
   "torchvision>=0.22.0,<0.23.0",
@@ -40,29 +34,6 @@ dependencies = [
   "transformers>=4.48.3,<4.49.0",
 ]
 
-# optional dependencies
-[project.optional-dependencies]
-cpu = [
-  "torch",
-  "torchvision",
-  "torchaudio",
-]
-
-cuda128 = [
-    "torch @ https://download.pytorch.org/whl/cu128/torch-2.7.0%2Bcu128-cp312-cp312-manylinux_2_28_x86_64.whl",
-    "torchvision @ https://download.pytorch.org/whl/cu128/torchvision-0.22.0%2Bcu128-cp312-cp312-manylinux_2_28_x86_64.whl",
-    "torchaudio @ https://download.pytorch.org/whl/cu128/torchaudio-2.7.0%2Bcu128-cp312-cp312-manylinux_2_28_x86_64.whl"
-]
-
-dev = [
-  "pytest",
-  "black",
-]
-
-[tool.setuptools]
-license-files = ["LICENSE"]
-
-# Ensure setuptools finds your package inside src/
 [tool.setuptools.packages.find]
 where = ["src"]
 
@@ -71,7 +42,3 @@ Homepage = "https://github.com/jpvilla1990/raef"
 Repository = "https://github.com/jpvilla1990/raef"
 PyPI = "https://pypi.org/project/raef/"
 Issues = "https://github.com/jpvilla1990/raef/issues"
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-pythonpath = ["src"]

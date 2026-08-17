@@ -3,8 +3,8 @@ import requests
 from git import Repo
 import kagglehub
 from datasets import load_dataset
-from utils.fileSystem import FileSystem
-from exceptions.datasetException import DatasetException
+from raef.utils.fileSystem import FileSystem
+from raef.exceptions.datasetException import DatasetException
 
 class DatasetDownloader(FileSystem):
     """
