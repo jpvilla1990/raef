@@ -13,10 +13,8 @@ class FileSystem(object):
     def __init__(self) -> None:
         self.__rootPath : str = Path(os.path.abspath(__file__)).parents[1]
         if not os.path.exists(os.path.join(self.__rootPath, "config.yaml")):
-            print("no puta")
             self.__config = Config().dict()
         else:
-            print("puta")
             data : dict = Utils.readYaml(
                 os.path.join(self.__rootPath, "config.yaml")
             )
