@@ -38,6 +38,8 @@ dependencies = [
   "torchmetrics>=1.6.1,<1.7.0",
   "tabulate>=0.9.0,<0.10.0",
   "transformers>=4.48.3,<4.49.0",
+  "pydantic>=2.12.4,<2.13.0",
+  "pydantic-settings>=2.15.0,<2.16.0",
 ]
 
 # optional dependencies

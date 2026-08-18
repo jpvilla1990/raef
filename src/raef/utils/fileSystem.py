@@ -2,8 +2,9 @@ import os
 import shutil
 import zipfile
 from pathlib import Path
-from raef.utils.utils import Utils
 import requests
+from raef.utils.utils import Utils
+from raef.config import Config
 
 class FileSystem(object):
     """
@@ -11,9 +12,15 @@ class FileSystem(object):
     """
     def __init__(self) -> None:
         self.__rootPath : str = Path(os.path.abspath(__file__)).parents[1]
-        self.__config : dict = Utils.readYaml(
-            os.path.join(self.__rootPath, "config.yaml")
-        )
+        if not os.path.exists(os.path.join(self.__rootPath, "config.yaml")):
+            print("no puta")
+            self.__config = Config().dict()
+        else:
+            print("puta")
+            data : dict = Utils.readYaml(
+                os.path.join(self.__rootPath, "config.yaml")
+            )
+            self.__config : dict = Config(**data).dict()
         self.__paths : dict = self.__loadPaths()
         self.__files : dict = self.__loadFiles()
 
