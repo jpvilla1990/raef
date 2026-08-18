@@ -66,19 +66,21 @@ while count < 100:
     timeseries = np.random.rand(144) # Creates a random 144 points vector
     sample = timeseries[:128]
     prediction = timeseries[128:]
-
     ragDatabase.ingestTimeseries(sample, prediction, dataset)
-
     count += 1
 ```
 
 ### RAEF (Extended Augmentation)
 
+Example with Chronos
 ```python
 import numpy as np
 import torch
 from raef.vectorDB.vectorDB import vectorDB
 from raef.model.raef import RAEF
+from chronos import BaseChronosPipeline
+
+model : BaseChronosPipeline = BaseChronosPipeline.from_pretrained("amazon/chronos-bolt-small")
 
 # Load RAG database
 
@@ -99,6 +101,7 @@ raef : RAEF = RAEF()
 timeseries = np.random.rand(144) # Creates a random 144 points vector
 sample = timeseries[:128]
 prediction = timeseries[128:]
+predictionLength = prediction.shape[0]
 k = 16
 
 query : torch.tensor = torch.tensor(sample, dtype=torch.float32)
@@ -107,23 +110,25 @@ if queried is not None:
     xContext : torch.Tensor = query.unsqueeze(0)
     queriedTorch : torch.Tensor = torch.Tensor(queried).unsqueeze(0)
     scoreTensor : torch.Tensor = torch.Tensor(score).unsqueeze(0)
-
     augmentedSample, mean, std = raef.inference(
         xContext,
         queriedTorch,
         scoreTensor,
         thresholdDistance = 1.0, # By default is set to 1.0, but can be modified
     )
-
     # Augmented sample is normalized, hence mean and std are needed to denormalize the prediction
-
-    prediction = model(augmentedSample)
-
+    prediction = model.predict_quantiles(
+        context=augmentedSample,
+        prediction_length=predictionLength,
+    )[1]
     stdNp : np.ndarray = std.to("cpu").squeeze(-1).squeeze(-1).numpy()
     meanNp : np.ndarray = mean.to("cpu").squeeze(-1).squeeze(-1).numpy()
     prediction = (prediction * stdNp) + meanNp
 else:
-    prediction = model(query)
+    prediction = model.predict_quantiles(
+        context=query,
+        prediction_length=predictionLength,
+    )
 ```
 
 
