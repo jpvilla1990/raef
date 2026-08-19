@@ -53,6 +53,59 @@ class FileSystem(object):
 
         return paths
 
+    def _downloadFile(self, url: str, destination: str, maxRetries: int = 5):
+        """
+        Download a file with resume support.
+        """
+
+        tempPath = destination + ".part"
+
+        for attempt in range(maxRetries):
+            try:
+                existingSize = (
+                    os.path.getsize(tempPath)
+                    if os.path.exists(tempPath)
+                    else 0
+                )
+
+                headers = {}
+
+                if existingSize > 0:
+                    headers["Range"] = f"bytes={existingSize}-"
+
+                with requests.get(
+                    url,
+                    headers=headers,
+                    stream=True,
+                    timeout=(30, 300),
+                ) as response:
+
+                    response.raise_for_status()
+
+                    # Server ignored Range -> restart download
+                    if existingSize > 0 and response.status_code == 200:
+                        existingSize = 0
+
+                    mode = "ab" if existingSize > 0 else "wb"
+
+                    with open(tempPath, mode) as f:
+                        for chunk in response.iter_content(chunk_size=1024 * 1024):
+                            if chunk:
+                                f.write(chunk)
+
+                # Download completed
+                os.replace(tempPath, destination)
+                return
+
+            except (requests.exceptions.RequestException, OSError) as e:
+                print(
+                    f"Download failed "
+                    f"(attempt {attempt + 1}/{maxRetries}): {e}"
+                )
+
+                if attempt == maxRetries - 1:
+                    raise
+
     def _downloadFinetunedModels(self):
         """
         Method to download finetune models
@@ -60,14 +113,19 @@ class FileSystem(object):
         self._createFolder(self._getPaths()["pretrainedModels"])
         for model in self.__config["models"]["finetuneModels"]["files"]:
             url : str = self.__config["models"]["finetuneModels"]["url"] + "/resolve/main/" + model
-            if os.path.exists(os.path.join(self._getPaths()["pretrainedModels"], model)):
+            destination = os.path.join(
+                self._getPaths()["pretrainedModels"],
+                model,
+            )
+            if os.path.exists(destination):
                 continue
-            response = requests.get(url, stream=True)
+            print(f"Downloading {model}...")
+            self._downloadFile(
+                url,
+                destination,
+            )
 
-            with open(os.path.join(self._getPaths()["pretrainedModels"], model), "wb") as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    if chunk:
-                        f.write(chunk)
+            print(f"Downloaded {model}")
 
     def _deleteFolder(self, folder : str):
         """

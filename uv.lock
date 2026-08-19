@@ -1849,7 +1849,7 @@ wheels = [
 
 [[package]]
 name = "raef"
-version = "0.1.0"
+version = "0.6.0"
 source = { editable = "." }
 dependencies = [
     { name = "chromadb" },
@@ -1866,6 +1866,7 @@ dependencies = [
     { name = "numpy" },
     { name = "pandas" },
     { name = "pip" },
+    { name = "posthog" },
     { name = "pyarrow" },
     { name = "pydantic" },
     { name = "pydantic-settings" },
@@ -1912,6 +1913,7 @@ requires-dist = [
     { name = "numpy", specifier = ">=1.26.4,<1.27.0" },
     { name = "pandas", specifier = ">=2.1.4,<2.2.0" },
     { name = "pip", specifier = ">=24.0,<25.0" },
+    { name = "posthog", specifier = ">=5.0.0,<6.0.0" },
     { name = "pyarrow", specifier = ">=18.1.0,<19.0.0" },
     { name = "pydantic", specifier = ">=2.12.4,<2.13.0" },
     { name = "pydantic-settings", specifier = ">=2.15.0,<2.16.0" },
